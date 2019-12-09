@@ -1,0 +1,6 @@
+{
+  "home": "localhost:3000",
+  "atoms": "localhost:3000/atoms",
+  "molecules": "localhost:3000/atoms",
+  "organisms": "localhost:3000/atoms"
+}

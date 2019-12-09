@@ -1,0 +1,48 @@
+{
+  "name": "@byu-oit/vue-component-lib-starter",
+  "version": "1.0.0",
+  "description": "Vue Component Library Starter Template",
+  "author": "Spencer Tuft",
+  "private": true,
+  "scripts": {
+    "build": "del 'dist' && make-dir dist && cpy 'components/atoms/*.vue' dist && cpy 'components/molecules/*.vue' dist && cpy 'components/organisms/*.vue' dist",
+    "dev": "nuxt-ts",
+    "generate": "DEPLOY_ENV=GH_PAGES nuxt-ts generate",
+    "lint": "eslint --ext .ts,.vue --ignore-path .gitignore . --fix",
+    "test": "cypress run",
+    "test:open": "cypress open"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@nuxt/typescript-build": "^0.3.1",
+    "@nuxt/typescript-runtime": "^0.2.1",
+    "@nuxtjs/eslint-config": "^2.0.0",
+    "@nuxtjs/eslint-config-typescript": "^1.0.0",
+    "@nuxtjs/vuetify": "^1.9.0",
+    "@typescript-eslint/eslint-plugin": "^2.10.0",
+    "@vue/cli-plugin-typescript": "^3.11.0",
+    "@vue/eslint-config-standard": "^4.0.0",
+    "@vue/eslint-config-typescript": "^4.0.0",
+    "cpy-cli": "^2.0.0",
+    "cypress": "^3.7.0",
+    "del-cli": "^3.0.0",
+    "eslint": "^6.7.2",
+    "eslint-config-prettier": "^6.4.0",
+    "eslint-config-standard": ">=14.1.0",
+    "eslint-plugin-nuxt": ">=0.4.2",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-standard": ">=4.0.1",
+    "eslint-plugin-vue": "^6.0.1",
+    "eslint-plugin-vuetify": "^1.0.0-beta.5",
+    "make-dir-cli": "^2.0.0",
+    "nuxt": "^2.10.1",
+    "nuxt-property-decorator": "^2.5.0",
+    "prettier": "^1.16.4",
+    "ts-node": "^8.2.0",
+    "typescript": "^3.7.2"
+  },
+  "peerDependencies": {
+    "vue": "^2.5.15",
+    "vuex": "^3.1.2"
+  }
+}

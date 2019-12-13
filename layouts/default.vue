@@ -88,7 +88,13 @@ export default class DefaultView extends Vue {
     organisms: {
       display: 'Organisms',
       icon: 'mdi-leaf',
-      components: []
+      components: [
+        {
+          title: 'Sim Simple Table',
+          path: '/organisms/simSimpleTable',
+          icon: 'mdi-table-large'
+        }
+      ]
     }
   }
 

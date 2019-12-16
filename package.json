@@ -39,7 +39,7 @@
     "nuxt-property-decorator": "^2.5.0",
     "prettier": "^1.16.4",
     "ts-node": "^8.2.0",
-    "typescript": "^3.7.2"
+    "typescript": "^3.7.3"
   },
   "peerDependencies": {
     "vue": "^2.5.15",

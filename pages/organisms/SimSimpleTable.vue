@@ -1,16 +1,18 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-      <sim-simple-table
-        v-model="selected"
-        class="col-lg"
-        :items="items"
-        :headers="headers"
-        :deduplicate="['a', 'c']"
-        show-select
-      />
-      <div class="col-lg-2 pt-0">
-        <div class="row bg-primary rounded">
+      <div class="col-lg">
+        <sim-simple-table
+          v-model="selected"
+          class="col-lg"
+          :items="items"
+          :headers="headers"
+          :deduplicate="['a', 'c']"
+          show-select
+        />
+      </div>
+      <div class="col-lg-2">
+        <div class="row bg-primary">
           <h3 class="m-auto text-light">Selected</h3>
         </div>
         <div v-for="(item, i) of selected" :key="i" class="row mx-auto">
@@ -22,7 +24,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import SimSimpleTable from '~/components/organisms/simSimpleTable.vue'
+import SimSimpleTable from '~/components/organisms/SimSimpleTable.vue'
 
 @Component({
   components: {

@@ -1,7 +1,7 @@
 {
-  "name": "@byu-oit/vue-component-lib-starter",
+  "name": "@byu-oit/sim-vue-lib",
   "version": "1.1.0",
-  "description": "Vue Component Library Starter Template",
+  "description": "SIM Vue Component Library",
   "author": "Spencer Tuft",
   "private": true,
   "scripts": {

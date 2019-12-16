@@ -3,7 +3,7 @@
   "version": "1.1.0",
   "description": "SIM Vue Component Library",
   "author": "Spencer Tuft",
-  "private": true,
+  "private": false,
   "scripts": {
     "build": "del 'dist' && make-dir dist && cpy 'components/atoms/*.vue' dist && cpy 'components/molecules/*.vue' dist && cpy 'components/organisms/*.vue' dist",
     "dev": "nuxt-ts",

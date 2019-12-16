@@ -12,7 +12,9 @@
     "test": "cypress run",
     "test:open": "cypress open"
   },
-  "dependencies": {},
+  "dependencies": {
+    "vue-material-design-icons": "^4.4.0"
+  },
   "devDependencies": {
     "@nuxt/typescript-build": "^0.3.1",
     "@nuxt/typescript-runtime": "^0.2.1",

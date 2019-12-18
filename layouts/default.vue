@@ -11,7 +11,6 @@
             <v-list-item-title>{{ home.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-
         <v-list-group
           v-for="section of sections"
           :key="section.title"
@@ -83,7 +82,13 @@ export default class DefaultView extends Vue {
     molecules: {
       display: 'Molecules',
       icon: 'mdi-molecule',
-      components: []
+      components: [
+        {
+          title: 'Sim Select',
+          path: '/molecules/SimSelect',
+          icon: 'mdi-test-tube'
+        }
+      ]
     },
     organisms: {
       display: 'Organisms',

@@ -13,7 +13,10 @@
     "test:open": "cypress open"
   },
   "dependencies": {
-    "vue-material-design-icons": "^4.4.0"
+    "stylus": "^0.54.7",
+    "vue": "^2.6.11",
+    "vue-material-design-icons": "^4.4.0",
+    "vue-template-compiler": "^2.6.11"
   },
   "devDependencies": {
     "@nuxt/typescript-build": "^0.3.1",
@@ -42,7 +45,8 @@
     "nuxt-property-decorator": "^2.5.0",
     "prettier": "^1.16.4",
     "ts-node": "^8.2.0",
-    "typescript": "^3.7.2"
+    "typescript": "^3.7.2",
+    "stylus-loader": "^3.0.2"
   },
   "peerDependencies": {
     "vue": "^2.5.15",

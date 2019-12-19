@@ -1,7 +1,7 @@
 <template>
     <div style="margin-left: 15px">
         <div class = row h-25>
-            <label :style="labelStyle">{{ label }}</label>
+            <label :class="labelClass" :style="labelStyle">{{ label }}</label>
         </div>
         <div class = row h-75>
             <select
@@ -14,6 +14,7 @@
                     @focus="event => { $emit('focus', event.target.value) }"
                     :disabled="disabled"
                     :readonly="disabled"
+
             >
                 <option v-for="item in items" :key="item">{{ item }}</option>
             </select>
@@ -51,6 +52,12 @@
         @Prop({ default: '', type: String })
         size!: string
 
+        @Prop({ default: '', type: String })
+        inputClass!: string
+
+        @Prop({ default: '', type: String })
+        labelClass!: string
+
         get theStyle() {
             let style = '';
             if (this.textCentered) {
@@ -86,15 +93,15 @@
         }
 
         get theClass() {
+            let inputClass: string = this.inputClass + ' form-control'
+
             if (this.size === 'sm') {
-                return 'form-control form-control-sm'
+                inputClass += ' form-control-sm'
             }
             else if (this.size === 'lg') {
-                return 'form-control form-control-lg'
+                inputClass += ' form-control-lg'
             }
-            else {
-                return 'form-control'
-            }
+            return inputClass
         }
 
         get theValue() {

@@ -14,6 +14,8 @@
                     :size="theSize"
                     :disabled="disabled"
                     :required=true
+                    :inputClass="inputClass"
+                    :labelClass="labelClass"
                     v-on:input="onInputHandler"
                     v-on:blur="onBlurHandler"
                     v-on:focus="onFocusHandler"
@@ -28,6 +30,7 @@
         </div>
         <hr>
         <div class="row">
+            <div class="col-2"></div>
             <div class="col-2">
                 <sim-select
                         v-model="theSize"
@@ -65,11 +68,29 @@
                        :checked="shadowBorder" @click='shadowBorder = !shadowBorder' style="padding-left: 10px; cursor: pointer">
                 <label for="shadowBorder" style="margin-left: 3px">Shadow Border</label>
             </div>
-            <div class="col-2" style="margin-top: 20px">
-                <input type="checkbox"
-                       id="textCentered"
-                       :checked="textCentered" @click='textCentered = !textCentered' style="padding-left: 10px; cursor: pointer">
-                <label for="textCentered" style="margin-left: 3px">Centered Text</label>
+
+        </div>
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-2">
+                <sim-select
+                        v-model="inputClass"
+                        :value="inputClass"
+                        label="Input Class"
+                        :items="classList"
+                        :textCentered=true
+                        width="100px"
+                ></sim-select>
+            </div>
+            <div class="col-2">
+                <sim-select
+                        v-model="labelClass"
+                        :value="labelClass"
+                        label="Label Class"
+                        :items="classList"
+                        :textCentered=true
+                        width="100px"
+                ></sim-select>
             </div>
             <div class="col-2" style="margin-top: 20px">
                 <input type="checkbox"
@@ -77,7 +98,14 @@
                        :checked="disabled" @click='disabled = !disabled' style="padding-left: 10px; cursor: pointer">
                 <label for="disabled" style="margin-left: 3px">Disabled</label>
             </div>
+            <div class="col-2" style="margin-top: 20px">
+                <input type="checkbox"
+                       id="textCentered"
+                       :checked="textCentered" @click='textCentered = !textCentered' style="padding-left: 10px; cursor: pointer">
+                <label for="textCentered" style="margin-left: 3px">Centered Text</label>
+            </div>
         </div>
+        <hr>
     </div>
 </template>
 
@@ -105,6 +133,9 @@
         disabled: boolean = false
         lastSelectedMsg: string = ''
         eventMessage: string = ''
+        inputClass: string = ''
+        labelClass: string = ''
+        classList: string [] = ['', 'redText', 'greenText']
 
         onInputHandler(event) {
             this.lastSelectedMsg = event + ' was selected at ' + new Date()
@@ -121,6 +152,11 @@
     }
 </script>
 
-<style scoped>
-
+<style>
+    .redText {
+        color: red
+    }
+    .greenText {
+        color: green
+    }
 </style>

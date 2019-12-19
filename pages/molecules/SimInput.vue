@@ -19,6 +19,10 @@
                             :alwaysShowLabel="alwaysShowLabel"
                             :inputClass="inputClass"
                             :labelClass="labelClass"
+                            v-on:input="onInputHandler"
+                            v-on:blur="onBlurHandler"
+                            v-on:focus="onFocusHandler"
+                            v-on:keypress="onKeyPressHandler"
                     ></sim-input>
                 </div>
                 <div class="col-2">
@@ -53,9 +57,14 @@
                 </div>
             </div>
         </div>
-
         <div style="display: flex; justify-content: space-around; margin-top: 20px">
-            {{ userMessage }}
+            {{ lastSelectedMsg }}
+        </div>
+        <div style="display: flex; justify-content: space-around; margin-top: 20px">
+            {{ eventMessage }}
+        </div>
+        <div style="display: flex; justify-content: space-around; margin-top: 20px">
+            {{ keyPressMessage }}
         </div>
         <hr>
         <div class="row">
@@ -145,7 +154,7 @@
                 <sim-select
                         v-model="labelClass"
                         :value="labelClass"
-                        label="Input Class"
+                        label="Label Class"
                         :items="classList"
                         :textCentered=true
                         width="100px"
@@ -222,9 +231,10 @@
         textCentered: boolean = true
         lastSelectedMsg: string = ''
         eventMessage: string = ''
+        keyPressMessage: string = ''
 
         onInputHandler(event) {
-            this.lastSelectedMsg = event + ' was selected at ' + new Date()
+            this.lastSelectedMsg = event + ' was entered at ' + new Date()
         }
 
         onBlurHandler() {
@@ -233,6 +243,10 @@
 
         onFocusHandler() {
             this.eventMessage = 'The SimSelect component is now focused.'
+        }
+
+        onKeyPressHandler(event) {
+            this.keyPressMessage = 'A key was pressed. The input lenght is now ' + parseInt(event.length+ 1)  + ' characters.'
         }
 
         @Watch('required')

@@ -1,7 +1,7 @@
 <template>
     <div class='container'>
         <div class = row h-25>
-            <label :style="labelStyle">{{ label }}</label>
+            <label :class="labelClass" :style="labelStyle">{{ label }}</label>
         </div>
         <div class = row h-75>
 
@@ -9,9 +9,9 @@
                     v-model="theValue"
                     :class="theClass"
                     :style="theStyle"
-                    :placeholder="placeHolder"
+                    :placeholder="thePlaceHolder"
                     :required="required"
-                    v-on:keypress="checkValue"
+                    @keypress="event => { $emit('keypress', event.target.value) }"
                     @change="event => { $emit('input', event.target.value) }"
                     @focus="event => { $emit('focus', event.target.value) }"
                     @blur="event => { $emit('blur', event.target.value) }"
@@ -25,62 +25,65 @@
     </div>
 </template>
 
-<script>
-    export default {
-        name: 'sim-input',
-        components: {
+<script lang="ts">
+    import { Component, Vue, Prop, Watch } from 'nuxt-property-decorator'
 
-        },
-        props: {
-            /* value is the v-model value */
-            value: {
-                type: String,
-                required: false
-            },
-            placeholder: {
-                type: String,
-                required: false
-            },
+    @Component
+        export default class SimInput extends Vue {
+            theValue: String | null = null
+            hasContent: boolean = false
+            currentValue: String = ''
+
+            @Prop({ default: '', type: String })
+            value!: string
+
+            @Prop({ default: '', type: String })
+            placeHolder!: string
+
             // If the label is blank the height of the component will remain constant, set label to '**' to reduce the height of the component
-            label: {
-                type: String,
-                required: false
-            },
-            disabled: {
-                type: Boolean,
-                default: false
-            },
-            width: {
-                type: String,
-                default: ''
-            },
-            borderStyle: {
-                type: String,
-                default: 'inset'
-            },
-            // either 'sm' or 'lg'; md (medium) is the default
-            size: {
-                type: String,
-                default: ''
-            },
-            required: {
-                type: Boolean,
-                default: false
-            },
-            position: {
-                type: String,
-                default: 'left'
-            },
-            alwaysShowLabel: {
-                type: Boolean,
-                default: true
+            @Prop({ default: '', type: String })
+            label!: string
+
+            @Prop({ default: '', type: String })
+            width!: string
+
+            @Prop({ default: 'inset', type: String })
+            borderStyle!: string
+
+            // either 'sm' or 'lg' or  'md' (medium) is the default
+            @Prop({ default: 'inset', type: String })
+            size!: string
+
+            // either 'left' or 'center' or  'right': left is the default
+            @Prop({ default: 'inset', type: String })
+            position!: string
+
+            @Prop({ default: false, type: Boolean })
+            disabled!: boolean
+
+            @Prop({ default: false, type: Boolean })
+            required!: boolean
+
+            @Prop({ default: true, type: Boolean })
+            alwaysShowLabel!: boolean
+
+            @Prop({ default: '', type: String })
+            inputClass!: string
+
+            @Prop({ default: '', type: String })
+            labelClass!: string
+
+            mounted() {
+                this.theValue = this.value
+                this.hasContent = this.theValue !== ""
+                this.currentValue = this.value
             }
-        },
-        computed: {
-            showLabel() {
+
+            get showLabel() {
                 return this.label !== '**'
-            },
-            theStyle() {
+            }
+
+            get theStyle() {
                 let style = '';
                 if (this.width !== '') {
                     style += 'width:' + this.width + ';'
@@ -121,26 +124,26 @@
                         break
                 }
                 return style
-            },
+            }
 
-            theClass() {
+            get theClass() {
+                let inputClass: string = this.inputClass + ' form-control'
+
                 if (this.size === 'sm') {
-                    return 'form-control form-control-sm'
+                    inputClass += ' form-control-sm'
                 }
                 else if (this.size === 'lg') {
-                    return 'form-control form-control-lg'
+                    inputClass += ' form-control-lg'
                 }
-                else {
-                    return 'form-control'
-                }
-            },
+                return inputClass
+            }
 
-            placeHolder() {
-                if (this.disabled && this.placeholder) {
+            get thePlaceHolder() {
+                if (this.disabled && this.placeHolder) {
                     return ''
                 }
-                else if (this.placeholder) {
-                    return this.placeholder
+                else if (this.placeHolder) {
+                    return this.placeHolder
                 }
                 else if (this.label === '**') {
                     return ''
@@ -148,13 +151,13 @@
                 else {
                     return this.label
                 }
-            },
+            }
 
-            labelStyle() {
+            get labelStyle() {
                 let style = ''
 
                 if (!this.alwaysShowLabel) {
-                    if ((!this.placeholder) && (!this.value) && (!this.theValue) && (!this.disabled)) {
+                    if ((!this.placeHolder) && (!this.value) && (!this.theValue) && (!this.disabled)) {
                         style = style + 'visibility: hidden; '
                     } else if ((this.value === '') && (this.theValue === '') && (!this.disabled)) {
                         style = style + 'visibility: hidden; '
@@ -173,83 +176,10 @@
                     return style + 'font-size: 14px; padding-top: 3px; margin-bottom: -2px'
                 }
 
-            },
-
-            activeLabelClasses() {
-                return {
-                    'label__active--canscale': this.settings.scale
-                }
-            },
-            containerClasses() {
-                const classes = {
-                    'has-line': this.settings.line,
-                    'input__container--focus': this.hasFocus,
-                    'input__container--content': this.hasContent
-                };
-                if (this.settings.hasError) {
-                    classes[this.settings.classes.error] = true;
-                }
-                return classes;
-            },
-            accessibilityStyle() {
-                let color = this.settings.color.lineColor;
-                if (this.settings.hasError) {
-                    color = this.settings.color.errorColor;
-                }
-                return {
-                    'background-color': color
-                }
-            },
-            labelColor() {
-                if (!this.settings.hasError) {
-                    return this.hasFocus ? this.settings.color.focusColor : this.settings.color.blurredColor
-                } else {
-                    return this.settings.color.errorColor;
-                }
-            },
-            activeLabelStyle() {
-                return {
-                    top: this.settings.labelOffset.top + 'px',
-                    left: this.settings.labelOffset.left + 'px',
-                    color: this.labelColor
-                }
-            },
-            inputContainerStyle() {
-                return {
-                    height: this.settings.height + 'px'
-                }
-            },
-        },
-        methods: {
-            clear() {
-                this.formElement.value = '';
-                this.hasContent = false;
-                this.hasFocus = false;
-                this.$emit('clear');
-            },
-            focus(event) {
-                this.hasFocus = true;
-                if ((this.settings.clearOnInput) && (this.formElement.type !== 'select-one'))
-                {
-                    this.formElement.select()
-                }
-                this.$emit('focus');
-            },
-            checkValue:function() {
-                this.currentValue = this.value
-            },
-            input(event) {
-                this.hasFocus = true;
-                this.hasContent = event.target.value !== '';
-                this.$emit('input');
-            },
-            blur(event) {
-                this.hasFocus = false;
-                this.$emit('blur');
             }
-        },
-        watch: {
-            value: function (newValue) {
+
+            @Watch('value')
+                onPropertyChanged(newValue: string, oldValue: string) {
                 if (newValue === null) {
                     this.theValue = ''
                 }
@@ -258,60 +188,8 @@
                 }
                 this.hasContent = newValue !== ""
             }
-        },
-        mounted() {
-            if (this.formElement) {
-                this.formElement.addEventListener('input', this.input);
-                this.formElement.addEventListener('blur', this.blur);
-                this.formElement.addEventListener('focus', this.focus);
-                if (this.formElement.type === 'select-one') {
-                    this.hasContent = true;
-                    this.settings.scale = false;
-                    this.settings.hasClearButton = false;
-                    this.hasfocus = true;
-                }
-                else {
-                    if (this.disabled) {
-                        this.hasContent = true
-                    } else {
-                        this.hasContent = this.theValue !== ""
-                    }
-                }
-            }
-            this.theValue = this.value
-            this.hasContent = this.theValue !== ""
-            this.currentValue = this.value
-        },
-        data () {
-            return {
-                currentValue: '',
-                theValue: null,
-                defaultSettings: {
-                    classes: {
-                        error: 'has-error'
-                    },
-                    hasError: false,
-                    height: 50,
-                    hasClearButton: true,
-                    clearOnInput: true,
-                    line: true,
-                    scale: true,
-                    labelOffset: {
-                        top: 5,
-                        left: 8
-                    },
-                    color: {
-                        focusColor: '#5D7998',
-                        lineColor: '#5D7998',
-                        errorColor: '#ff0000',
-                        blurredColor: 'rgba(3, 23, 40, 0.34)'
-                    }
-                },
-                hasFocus: false,
-                hasContent: false
-            }
-        }
     }
+
 </script>
 
 <style scoped lang="styl">

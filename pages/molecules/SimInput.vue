@@ -3,19 +3,22 @@
         <h1 class="text-primary" style="text-align: center">Sim Input Example</h1>
         <div style="display: flex; justify-content: space-around">
             <div class="row">
+                <div class="col-3"></div>
                 <div class="col-2">
                     <sim-input
                             v-model="testValue"
                             :value="testValue"
                             label="Your dog's name"
                             :borderStyle="borderStyle"
-                            placeholder="Enter your dog's name"
+                            placeHolder="Enter your dog's name"
                             :size="theSize"
                             :disabled="disabled"
                             :width="theWidth"
                             :required="required"
                             :position="thePosition"
                             :alwaysShowLabel="alwaysShowLabel"
+                            :inputClass="inputClass"
+                            :labelClass="labelClass"
                     ></sim-input>
                 </div>
                 <div class="col-2">
@@ -24,7 +27,7 @@
                             :value="testValue2"
                             label="**"
                             :borderStyle="borderStyle"
-                            placeholder="Label = '**'"
+                            placeHolder="Label = '**'"
                             :size="theSize"
                             :disabled="disabled"
                             :width="theWidth"
@@ -39,7 +42,7 @@
                             :value="testValue3"
                             label=""
                             :borderStyle="borderStyle"
-                            placeholder="Blank Label"
+                            placeHolder="Blank Label"
                             :size="theSize"
                             :disabled="disabled"
                             :width="theWidth"
@@ -56,6 +59,7 @@
         </div>
         <hr>
         <div class="row">
+            <div class="col-2"></div>
             <div class="col-2">
                 <sim-select
                         v-model="theSize"
@@ -78,16 +82,6 @@
 
                 ></sim-select>
             </div>
-            <div class="col-2">
-                <sim-select
-                        v-model="theWidth"
-                        :value="theWidth"
-                        label="Width"
-                        :items="widthList"
-                        :textCentered=true
-                        width="100px"
-                ></sim-select>
-            </div>
             <div class="col-2" style="margin-top: 20px">
                 <input type="checkbox"
                        id="disabled"
@@ -100,12 +94,19 @@
                        :checked="required" @click='required = !required' style="padding-left: 10px; cursor: pointer">
                 <label for="required" style="margin-left: 3px">Required</label>
             </div>
-            <div class="col-2" style="margin-top: 20px">
-                <button class="btn-primary btn-ml" type="submit" @click="userMessage=''">Submit</button>
-            </div>
-
         </div>
         <div class="row">
+            <div class="col-2"></div>
+            <div class="col-2">
+                <sim-select
+                        v-model="theWidth"
+                        :value="theWidth"
+                        label="Width"
+                        :items="widthList"
+                        :textCentered=true
+                        width="100px"
+                ></sim-select>
+            </div>
             <div class="col-2">
                 <sim-select
                         v-model="thePosition"
@@ -123,17 +124,46 @@
                        :checked="alwaysShowLabel" @click='alwaysShowLabel = !alwaysShowLabel' style="padding-left: 10px; cursor: pointer">
                 <label for="alwaysShowLabel" style="margin-left: 3px">Always Show Label</label>
             </div>
+            <div class="col-2" style="margin-top: 20px">
+                <button class="btn-primary btn-ml" type="submit" @click="userMessage=''">Submit</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-2">
+                <sim-select
+                        v-model="inputClass"
+                        :value="inputClass"
+                        label="Input Class"
+                        :items="classList"
+                        :textCentered=true
+                        width="100px"
+                ></sim-select>
+            </div>
+            <div class="col-2">
+                <sim-select
+                        v-model="labelClass"
+                        :value="labelClass"
+                        label="Input Class"
+                        :items="classList"
+                        :textCentered=true
+                        width="100px"
+
+                ></sim-select>
+            </div>
         </div>
         <hr>
-        <div style="display:flex; justify-content: center">
+        <div style="margin-left: 100px">
             <h5>Always Show Label</h5>
         </div>
-        <div style="display:flex; justify-content: center">
+        <div style="margin-left: 150px">
             If 'Always Show Label' is selected the label will always appear above the the input control.
         </div>
-        <div style="display:flex; justify-content: center">
+        <div style="margin-left: 150px">
             Otherwise, if the input is blank the label will be hidden (but the place holder will be visible) until data is entered in the input. Then the place holder will be hidden and the label shown.
         </div>
+
         <p></p>
         <div style="margin-left: 100px">
             <h5>Blank Labels</h5>
@@ -176,7 +206,9 @@
         userMessage: string = ''
         thePosition: string = 'left'
         positionList: string [] = ['left','center','right']
-
+        inputClass: string = ''
+        labelClass: string = ''
+        classList: string [] = ['', 'redText', 'greenText']
 
         carBrand: string = 'Cadillac'
         carList: string [] = ['Acura', 'Audi', 'Buick','BMW', 'Cadillac', 'Chevrolet', 'Dodge', 'Ford', 'Honda','Hyundai','Toyota']
@@ -213,7 +245,12 @@
     }
 </script>
 
-<style scoped>
-
+<style>
+    .redText {
+        color: red
+    }
+    .greenText {
+        color: green
+    }
 </style>
 

@@ -26,7 +26,7 @@
     import { Component, Vue, Prop } from 'nuxt-property-decorator'
 
     @Component
-        export default class SimSelect extends Vue {
+    export default class SimSelect extends Vue {
 
         @Prop({ default: '', type: String })
         value!: string

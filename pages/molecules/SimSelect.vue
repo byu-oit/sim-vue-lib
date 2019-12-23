@@ -19,6 +19,8 @@
                     v-on:input="onInputHandler"
                     v-on:blur="onBlurHandler"
                     v-on:focus="onFocusHandler"
+                    v-on:mouseover="mouseOverHandler($event)"
+                    v-on:mouseleave="mouseLeaveHandler($event)"
 
             ></sim-select>
         </div>
@@ -147,6 +149,19 @@
 
         onFocusHandler() {
             this.eventMessage = 'The SimSelect component is now focused.'
+        }
+
+        mouseOverHandler(event) {
+            if (event > ' ') {
+                this.eventMessage = 'The current value of the SimSelect Component is: ' + event + '.'
+            }
+            else {
+                this.eventMessage = 'The current value of the SimSelect Component is blank.'
+            }
+        }
+
+        mouseLeaveHandler(event) {
+            this.eventMessage = 'The mouse left SimSelect Component.'
         }
 
     }

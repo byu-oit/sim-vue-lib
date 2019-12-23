@@ -23,6 +23,8 @@
                             v-on:blur="onBlurHandler"
                             v-on:focus="onFocusHandler"
                             v-on:keypress="onKeyPressHandler"
+                            v-on:mouseover="mouseOverHandler($event)"
+                            v-on:mouseleave="mouseLeaveHandler($event)"
                     ></sim-input>
                 </div>
                 <div class="col-2">
@@ -247,6 +249,19 @@
 
         onKeyPressHandler(event) {
             this.keyPressMessage = 'A key was pressed. The input lenght is now ' + parseInt(event.length+ 1)  + ' characters.'
+        }
+
+        mouseOverHandler(event) {
+            if (event > ' ') {
+                this.eventMessage = 'The current value of the SimInput Component is: ' + event + '.'
+            }
+            else {
+                this.eventMessage = 'The current value of the SimInput Component is blank.'
+            }
+        }
+
+        mouseLeaveHandler(event) {
+            this.eventMessage = 'The mouse left SimInput Component.'
         }
 
         @Watch('required')

@@ -15,6 +15,8 @@
                     @change="event => { $emit('input', event.target.value) }"
                     @focus="event => { $emit('focus', event.target.value) }"
                     @blur="event => { $emit('blur', event.target.value) }"
+                    @mouseover="event => { $emit('mouseover', event.target.value) }"
+                    @mouseleave="event => { $emit('mouseleave', event.target.value) }"
                     :readonly="disabled"
                     :disabled="disabled"
                     :position="position"

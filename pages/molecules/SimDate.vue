@@ -2,6 +2,32 @@
     <form style="width: 100%">
         <h1 class="text-primary" style="text-align: center">Sim Date Example</h1>
         <div id="app">
+
+
+
+        <div class="container">
+            <div style="height: 500px; border: solid black 1px; background-color: #eff1f4; width: 100%">
+
+                <div class="row">
+                    <div class="col-1"></div>
+
+                    <div class="col-3">
+                        <sim-date
+                                v-model="today"
+                                :value="today"
+                                label="Date with data"
+                                placeholder="Place Holder"
+                                size="md"
+                                :alwaysShowLabel="alwaysShowLabel"
+                        ></sim-date>
+                    </div>
+
+                </div>
+                </div>
+            </div>
+
+
+
             <div class="container">
                 <div style="height: 500px; border: solid black 1px; background-color: #eff1f4; width: 100%">
                     <div class="row">

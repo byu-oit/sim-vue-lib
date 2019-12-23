@@ -1,6 +1,10 @@
 <template>
+  <body>
+  <link rel="stylesheet" href="https://cdn.byu.edu/theme-fonts/latest/ringside/fonts.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+
   <div
-    id="app"
+  id="app"
     class="mx-datepicker"
     :class="{
       'mx-datepicker-range': range,
@@ -43,6 +47,8 @@
       </span>
 
       <span class="mx-input-append">
+         <i class="fas fa-question-circle"></i>
+        <!--
         <slot name="calendar-icon">
           <svg v-if="LabelVisible" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 200 200" class="mx-calendar-icon" :style="iconStyle">
             <rect x="13" y="29" rx="14" ry="14" width="174" height="170" fill="transparent" />
@@ -60,6 +66,7 @@
           </svg>
 
         </slot>
+        -->
       </span>
 
     </div>
@@ -130,6 +137,7 @@
       </slot>
     </div>
   </div>
+  </body>
 </template>
 
 <script>

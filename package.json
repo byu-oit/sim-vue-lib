@@ -13,6 +13,7 @@
     "test:open": "cypress open"
   },
   "dependencies": {
+    "fecha": "^3.0.3",
     "stylus": "^0.54.7",
     "vue": "^2.6.11",
     "vue-material-design-icons": "^4.4.0",

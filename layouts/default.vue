@@ -92,6 +92,11 @@ export default class DefaultView extends Vue {
           title: 'Sim Input',
           path: '/molecules/SimInput',
           icon: 'mdi-test-tube'
+        },
+        {
+          title: 'Sim Formatted Number',
+          path: '/molecules/SimFormattedNumber',
+          icon: 'mdi-test-tube'
         }
       ]
     },

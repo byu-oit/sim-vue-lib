@@ -22,7 +22,7 @@
         <div class="progressBar">
             <h5>{{ message }}</h5>
         </div>
-        <div style="height: 500px; border: solid black 1px; background-color: #eff1f4; width: 1000px; margin: auto;">
+        <div style="height: 550px; border: solid black 1px; background-color: #eff1f4; width: 1000px; margin: auto;">
             <div class="row" style="margin-left: 0px">
                 <div class="col-2"></div>
                 <div class="col-2">
@@ -106,7 +106,7 @@
 
             <hr/>
             <div class="row">
-                <div class="col-" style="margin-left: 30px; margin-top: 20px; margin-bottom: 20px">Section 1</div>
+                <div class="col-" style="margin-left: 30px; margin-top: 33px">Section 1</div>
                 <div class="col-2">
                     <sim-select
                             v-model="TestProgress.backGroundColor.section1"
@@ -159,7 +159,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-" style="margin-left: 30px; margin-top: 20px; margin-bottom: 20px">Section 2</div>
+                <div class="col-" style="margin-left: 30px; margin-top: 33px">Section 2</div>
                 <div class="col-2">
                     <sim-select
                             v-model="TestProgress.backGroundColor.section2"
@@ -212,7 +212,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-" style="margin-left: 30px; margin-top: 20px; margin-bottom: 20px">Section 3</div>
+                <div class="col-" style="margin-left: 30px; margin-top: 33px">Section 3</div>
                 <div class="col-2">
                     <sim-select
                             v-model="TestProgress.backGroundColor.section3"
@@ -265,7 +265,7 @@
                 </div>
             </div>
             <div v-if="barSections >= 4" class="row">
-                <div class="col-" style="margin-left: 30px; margin-top: 20px; margin-bottom: 20px">Section 4</div>
+                <div class="col-" style="margin-left: 30px; margin-top: 33px">Section 4</div>
                 <div class="col-2">
                     <sim-select
                             v-model="TestProgress.backGroundColor.section4"
@@ -319,7 +319,7 @@
             </div>
 
             <div v-if="barSections >= 5" class="row">
-                <div class="col-" style="margin-left: 30px; margin-top: 20px; margin-bottom: 20px">Section 5</div>
+                <div class="col-" style="margin-left: 30px; margin-top: 33px">Section 5</div>
                 <div class="col-2">
                     <sim-select
                             v-model="TestProgress.backGroundColor.section5"
@@ -370,6 +370,21 @@
                             width="100px"
                     ></sim-select>
                 </div>
+            </div>
+        </div>
+        <hr>
+        <div style="margin-left: 100px; text-align: left">
+            <div>
+                <h5>Number of sections and Values</h5>
+            </div>
+            <div style="margin-left: 50px">
+                The progress bar will always show 100% percent complete, so if there is a remaining value, it should always be the last section.
+            </div>
+            <div style="margin-left: 50px">
+                The only exception to this is if the total for all the section values = 0, then a blank bar with the 'Bar Color' will be displayed
+            </div>
+            <div style="margin-left: 50px">
+                You can see this by changing the all the values to 0 and then changing the 'Bar Color' select object.
             </div>
         </div>
     </div>

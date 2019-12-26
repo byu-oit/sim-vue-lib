@@ -248,7 +248,7 @@
         }
 
         onKeyPressHandler(event) {
-            this.keyPressMessage = 'A key was pressed. The input lenght is now ' + parseInt(event.length+ 1)  + ' characters.'
+            this.keyPressMessage = 'A key was pressed. The input length is now ' + parseInt(event.length+ 1)  + ' characters.'
         }
 
         mouseOverHandler(event) {

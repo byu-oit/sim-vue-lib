@@ -46,22 +46,22 @@
             </div>
             <div class="col-2">
                 <sim-select
-                        v-model="theLabel"
-                        :value="theLabel"
-                        label="Label"
-                        :items="labelList"
-                        :textCentered=true
-                        width="150px"
-                ></sim-select>
-            </div>
-            <div class="col-2">
-                <sim-select
                         v-model="theWidth"
                         :value="theWidth"
                         label="Width"
                         :items="widthList"
                         :textCentered=true
                         width="100px"
+                ></sim-select>
+            </div>
+            <div class="col-2">
+                <sim-select
+                        v-model="theLabel"
+                        :value="theLabel"
+                        label="Label"
+                        :items="labelList"
+                        :textCentered=true
+                        width="150px"
                 ></sim-select>
             </div>
             <div class="col-2" style="margin-top: 20px">

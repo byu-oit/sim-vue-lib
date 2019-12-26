@@ -5,6 +5,7 @@
         </div>
         <div class = row h-75>
           <textarea
+                  v-model="theValue"
                   :class="theClass"
                   :style="theStyle"
                   :rows="getRows"

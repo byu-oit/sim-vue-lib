@@ -3,8 +3,24 @@
         <h1 class="text-primary" style="text-align: center">Sim Text Example</h1>
         <div style="display: flex; justify-content: space-around">
             <div class="row">
-                <div class="col-2"></div>
-                <div class="col-8">
+                <div class="col-3"></div>
+                <div class="col-2">
+                    <sim-text
+                            v-model="testValue2"
+                            :value="testValue2"
+                            :label="theLabel"
+                            :borderStyle="borderStyle"
+                            placeHolder="Enter your dog's life history"
+                            size="md"
+                            :rows=6
+                            :disabled="disabled"
+                            width="200px"
+                            :minLength="minLength"
+                            :maxLength="maxLength"
+                            :required="required"
+                    ></sim-text>
+                </div>
+                <div class="col-6">
                     <sim-text
                             v-model="testValue"
                             :value="testValue"
@@ -153,10 +169,19 @@
                 <label for="alwaysShowLabel" style="margin-left: 3px">Always Show Label</label>
             </div>
             <div class="col-2" style="margin-top: 20px">
+                <input type="checkbox"
+                       id="labelExample"
+                       :checked="alwaysShowLabel" @click='blankLabel = !blankLabel' style="padding-left: 10px; cursor: pointer">
+                <label for="labelExample" style="margin-left: 3px">{{ checkboxLabel }}</label>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-2" style="margin-top: 20px">
                 <button class="btn-primary btn-ml" type="submit" @click="userMessage=''">Submit</button>
             </div>
         </div>
-
         <hr>
         <div style="margin-left: 100px">
             <h5>Always Show Label</h5>
@@ -179,7 +204,7 @@
             If you have several sim-input components on a row and some have labels and others do not, pass in a value of '**' for the labels that you want blank.
         </div>
         <div style="margin-left: 175px">
-            This will cause the label to be blank but will not affect the height and the sim-input components will line up horizontally. (See 2nd sim-input)
+            This will cause the label to be blank but will not affect the height and the sim-input components will line up horizontally. (Click the checkbox to see.)
         </div>
 
     </form>
@@ -198,12 +223,15 @@
     })
     export default class App extends Vue {
         testValue: string = ''
+        testValue2: string = "Click the 'Label is blank' checkbox to see the difference between a blank label and a label = '**'."
         alwaysShowLabel: boolean = true
+        blankLabel: boolean = true
+
         borderStyle: string = 'inset'
         borderList: string [] = ['none', 'inset', 'outset','shadow', 'solid']
         disabled: boolean = false
-        theWidth: string = '200px'
-        widthList: string [] = ['100px','150px','200px','300px','400px','500px','800px']
+        theWidth: string = '400px'
+        widthList: string [] = ['100px','150px','200px','300px','400px','500px','600px']
         required: boolean = false
         userMessage: string = ''
         inputClass: string = ''
@@ -225,6 +253,20 @@
 
         get numRows() {
             return parseInt(this.rows)
+        }
+
+        get theLabel () {
+            if (this.blankLabel) {
+                return ''
+            }
+            return '**'
+        }
+
+        get checkboxLabel() {
+            if (this.blankLabel) {
+                return 'Label is blank'
+            }
+            return 'Label is **'
         }
 
         onInputHandler(event) {

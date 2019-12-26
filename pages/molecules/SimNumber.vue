@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-3"></div>
                 <div class="col-2">
-                    <sim-formatted-number
+                    <sim-number
                             v-model="testValue"
                             :value="testValue"
                             label="Your dog's name"
@@ -25,10 +25,10 @@
                             v-on:keypress="onKeyPressHandler"
                             v-on:mouseover="mouseOverHandler($event)"
                             v-on:mouseleave="mouseLeaveHandler($event)"
-                    ></sim-formatted-number>
+                    ></sim-number>
                 </div>
                 <div class="col-2">
-                    <sim-formatted-number
+                    <sim-number
                             v-model="testValue2"
                             :value="testValue2"
                             label="**"
@@ -40,10 +40,10 @@
                             :required="required"
                             :position="thePosition"
                             :alwaysShowLabel="alwaysShowLabel"
-                    ></sim-formatted-number>
+                    ></sim-number>
                 </div>
                 <div class="col-2">
-                    <sim-formatted-number
+                    <sim-number
                             v-model="testValue3"
                             :value="testValue3"
                             label=""
@@ -55,7 +55,7 @@
                             :required="required"
                             :position="thePosition"
                             :alwaysShowLabel="alwaysShowLabel"
-                    ></sim-formatted-number>
+                    ></sim-number>
                 </div>
             </div>
         </div>
@@ -195,12 +195,12 @@
 
 <script lang="ts">
     import { Component,  Watch, Vue } from 'nuxt-property-decorator'
-    import SimFormattedNumber from '~/components/molecules/sim-formatted-number/SimFormattedNumber.vue'
+    import SimNumber from '~/components/molecules/sim-number/SimNumber.vue'
     import SimSelect from '~/components/molecules/SimSelect.vue'
 
     @Component({
         components: {
-            SimFormattedNumber,
+            SimNumber,
             SimSelect
         }
     })

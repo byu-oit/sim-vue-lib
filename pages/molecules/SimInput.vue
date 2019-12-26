@@ -93,21 +93,6 @@
 
                 ></sim-select>
             </div>
-            <div class="col-2" style="margin-top: 20px">
-                <input type="checkbox"
-                       id="disabled"
-                       :checked="disabled" @click='disabled = !disabled' style="padding-left: 10px; cursor: pointer">
-                <label for="disabled" style="margin-left: 3px">Disabled</label>
-            </div>
-            <div class="col-2" style="margin-top: 20px">
-                <input type="checkbox"
-                       id="required"
-                       :checked="required" @click='required = !required' style="padding-left: 10px; cursor: pointer">
-                <label for="required" style="margin-left: 3px">Required</label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-2"></div>
             <div class="col-2">
                 <sim-select
                         v-model="theWidth"
@@ -129,17 +114,7 @@
 
                 ></sim-select>
             </div>
-            <div class="col-2" style="margin-top: 20px">
-                <input type="checkbox"
-                       id="alwaysShowLabel"
-                       :checked="alwaysShowLabel" @click='alwaysShowLabel = !alwaysShowLabel' style="padding-left: 10px; cursor: pointer">
-                <label for="alwaysShowLabel" style="margin-left: 3px">Always Show Label</label>
-            </div>
-            <div class="col-2" style="margin-top: 20px">
-                <button class="btn-primary btn-ml" type="submit" @click="userMessage=''">Submit</button>
-            </div>
         </div>
-
         <div class="row">
             <div class="col-2"></div>
             <div class="col-2">
@@ -163,6 +138,34 @@
 
                 ></sim-select>
             </div>
+            <div class="col-2" style="margin-top: 20px">
+                <input type="checkbox"
+                       id="required"
+                       :checked="required" @click='required = !required' style="padding-left: 10px; cursor: pointer">
+                <label for="required" style="margin-left: 3px">Required</label>
+            </div>
+            <div class="col-2" style="margin-top: 20px">
+                <input type="checkbox"
+                       id="disabled"
+                       :checked="disabled" @click='disabled = !disabled' style="padding-left: 10px; cursor: pointer">
+                <label for="disabled" style="margin-left: 3px">Disabled</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-2" style="margin-top: 20px">
+                <input type="checkbox"
+                       id="alwaysShowLabel"
+                       :checked="alwaysShowLabel" @click='alwaysShowLabel = !alwaysShowLabel' style="padding-left: 10px; cursor: pointer">
+                <label for="alwaysShowLabel" style="margin-left: 3px">Always Show Label</label>
+            </div>
+            <div class="col-2" style="margin-top: 20px">
+                <button class="btn-primary btn-ml" type="submit" @click="userMessage=''">Submit</button>
+            </div>
+
+
+
         </div>
         <hr>
         <div style="margin-left: 100px">

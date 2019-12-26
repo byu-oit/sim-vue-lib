@@ -94,10 +94,10 @@ export default class DefaultView extends Vue {
           icon: 'mdi-test-tube'
         },
         {
-          title: 'Sim Number',
-          path: '/molecules/SimNumber',
+          title: 'Sim Text',
+          path: '/molecules/SimText',
           icon: 'mdi-test-tube'
-        }
+        },
       ]
     },
     organisms: {

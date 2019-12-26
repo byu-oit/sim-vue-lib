@@ -1,21 +1,23 @@
 <template>
     <form style="width: 100%">
-        <h1 class="text-primary" style="text-align: center">Sim Input Example</h1>
+        <h1 class="text-primary" style="text-align: center">Sim Text Example</h1>
         <div style="display: flex; justify-content: space-around">
             <div class="row">
-                <div class="col-3"></div>
-                <div class="col-2">
-                    <sim-number
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <sim-text
                             v-model="testValue"
                             :value="testValue"
-                            label="Your dog's name"
+                            label="Your dog's life history"
                             :borderStyle="borderStyle"
-                            placeHolder="Enter your dog's name"
+                            placeHolder="Enter your dog's life history"
                             :size="theSize"
+                            :rows="numRows"
                             :disabled="disabled"
                             :width="theWidth"
+                            :minLength="minLength"
+                            :maxLength="maxLength"
                             :required="required"
-                            :position="thePosition"
                             :alwaysShowLabel="alwaysShowLabel"
                             :inputClass="inputClass"
                             :labelClass="labelClass"
@@ -25,41 +27,10 @@
                             v-on:keypress="onKeyPressHandler"
                             v-on:mouseover="mouseOverHandler($event)"
                             v-on:mouseleave="mouseLeaveHandler($event)"
-                    ></sim-number>
-                </div>
-                <div class="col-2">
-                    <sim-number
-                            v-model="testValue2"
-                            :value="testValue2"
-                            label="**"
-                            :borderStyle="borderStyle"
-                            placeHolder="Label = '**'"
-                            :size="theSize"
-                            :disabled="disabled"
-                            :width="theWidth"
-                            :required="required"
-                            :position="thePosition"
-                            :alwaysShowLabel="alwaysShowLabel"
-                    ></sim-number>
-                </div>
-                <div class="col-2">
-                    <sim-number
-                            v-model="testValue3"
-                            :value="testValue3"
-                            label=""
-                            :borderStyle="borderStyle"
-                            placeHolder="Blank Label"
-                            :size="theSize"
-                            :disabled="disabled"
-                            :width="theWidth"
-                            :required="required"
-                            :position="thePosition"
-                            :alwaysShowLabel="alwaysShowLabel"
-                    ></sim-number>
+                    ></sim-text>
                 </div>
             </div>
         </div>
-        <!--
         <div style="display: flex; justify-content: space-around; margin-top: 20px">
             {{ lastSelectedMsg }}
         </div>
@@ -71,78 +42,74 @@
         </div>
         <hr>
         <div class="row">
-            <div class="col-2"></div>
-            <div class="col-2">
-                <sim-select
-                        v-model="theSize"
-                        :value="theSize"
-                        label="Size"
-                        :items="sizeList"
-                        :textCentered=true
-                        width="100px"
+        <div class="col-2"></div>
+        <div class="col-2">
+            <sim-select
+                    v-model="theSize"
+                    :value="theSize"
+                    label="Size"
+                    :items="sizeList"
+                    :textCentered=true
+                    width="100px"
 
-                ></sim-select>
-            </div>
-            <div class="col-2">
-                <sim-select
-                        v-model="borderStyle"
-                        :value="borderStyle"
-                        label="Border style"
-                        :items="borderList"
-                        :textCentered=true
-                        width="100px"
-
-                ></sim-select>
-            </div>
-            <div class="col-2" style="margin-top: 20px">
-                <input type="checkbox"
-                       id="disabled"
-                       :checked="disabled" @click='disabled = !disabled' style="padding-left: 10px; cursor: pointer">
-                <label for="disabled" style="margin-left: 3px">Disabled</label>
-            </div>
-            <div class="col-2" style="margin-top: 20px">
-                <input type="checkbox"
-                       id="required"
-                       :checked="required" @click='required = !required' style="padding-left: 10px; cursor: pointer">
-                <label for="required" style="margin-left: 3px">Required</label>
-            </div>
+            ></sim-select>
         </div>
-        <div class="row">
-            <div class="col-2"></div>
-            <div class="col-2">
-                <sim-select
-                        v-model="theWidth"
-                        :value="theWidth"
-                        label="Width"
-                        :items="widthList"
-                        :textCentered=true
-                        width="100px"
-                ></sim-select>
-            </div>
-            <div class="col-2">
-                <sim-select
-                        v-model="thePosition"
-                        :value="thePosition"
-                        label="Text Position"
-                        :items="positionList"
-                        :textCentered=true
-                        width="100px"
+        <div class="col-2">
+            <sim-select
+                    v-model="theWidth"
+                    :value="theWidth"
+                    label="Width"
+                    :items="widthList"
+                    :textCentered=true
+                    width="100px"
+            ></sim-select>
+        </div>
+        <div class="col-2">
+            <sim-select
+                    v-model="rows"
+                    :value="rows"
+                    label="Rows"
+                    :items="rowsList"
+                    :textCentered=true
+                    width="100px"
+            ></sim-select>
+        </div>
+        <div class="col-2">
+            <sim-select
+                    v-model="borderStyle"
+                    :value="borderStyle"
+                    label="Border style"
+                    :items="borderList"
+                    :textCentered=true
+                    width="100px"
 
-                ></sim-select>
-            </div>
-            <div class="col-2" style="margin-top: 20px">
-                <input type="checkbox"
-                       id="alwaysShowLabel"
-                       :checked="alwaysShowLabel" @click='alwaysShowLabel = !alwaysShowLabel' style="padding-left: 10px; cursor: pointer">
-                <label for="alwaysShowLabel" style="margin-left: 3px">Always Show Label</label>
-            </div>
-            <div class="col-2" style="margin-top: 20px">
-                <button class="btn-primary btn-ml" type="submit" @click="userMessage=''">Submit</button>
-            </div>
+            ></sim-select>
         </div>
 
+    </div>
         <div class="row">
             <div class="col-2"></div>
+
+            <div class="col-2">
+                <sim-select
+                        v-model="minLength"
+                        :value="minLength"
+                        label="Min Length"
+                        :items="lengthList"
+                        :textCentered=true
+                        width="100px"
+                ></sim-select>
+            </div>
+            <div class="col-2">
+                <sim-select
+                        v-model="maxLength"
+                        :value="maxLength"
+                        label="Max Length"
+                        :items="lengthList"
+                        :textCentered=true
+                        width="100px"
+                ></sim-select>
+            </div>
             <div class="col-2">
                 <sim-select
                         v-model="inputClass"
@@ -165,6 +132,31 @@
                 ></sim-select>
             </div>
         </div>
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-2" style="margin-top: 20px">
+                <input type="checkbox"
+                       id="required"
+                       :checked="required" @click='required = !required' style="padding-left: 10px; cursor: pointer">
+                <label for="required" style="margin-left: 3px">Required</label>
+            </div>
+            <div class="col-2" style="margin-top: 20px">
+                <input type="checkbox"
+                       id="disabled"
+                       :checked="disabled" @click='disabled = !disabled' style="padding-left: 10px; cursor: pointer">
+                <label for="disabled" style="margin-left: 3px">Disabled</label>
+            </div>
+            <div class="col-2" style="margin-top: 20px">
+                <input type="checkbox"
+                       id="alwaysShowLabel"
+                       :checked="alwaysShowLabel" @click='alwaysShowLabel = !alwaysShowLabel' style="padding-left: 10px; cursor: pointer">
+                <label for="alwaysShowLabel" style="margin-left: 3px">Always Show Label</label>
+            </div>
+            <div class="col-2" style="margin-top: 20px">
+                <button class="btn-primary btn-ml" type="submit" @click="userMessage=''">Submit</button>
+            </div>
+        </div>
+
         <hr>
         <div style="margin-left: 100px">
             <h5>Always Show Label</h5>
@@ -189,86 +181,85 @@
         <div style="margin-left: 175px">
             This will cause the label to be blank but will not affect the height and the sim-input components will line up horizontally. (See 2nd sim-input)
         </div>
-        -->
+
     </form>
 </template>
 
 <script lang="ts">
     import { Component,  Watch, Vue } from 'nuxt-property-decorator'
-    import SimNumber from '~/components/molecules/sim-number/SimNumber.vue'
+    import SimText from '~/components/molecules/SimText.vue'
     import SimSelect from '~/components/molecules/SimSelect.vue'
 
     @Component({
         components: {
-            SimNumber,
+            SimText,
             SimSelect
         }
     })
     export default class App extends Vue {
-        testValue: number = 0
-        testValue2: number = 0
-        testValue3: number = 0
+        testValue: string = ''
         alwaysShowLabel: boolean = true
         borderStyle: string = 'inset'
         borderList: string [] = ['none', 'inset', 'outset','shadow', 'solid']
         disabled: boolean = false
         theWidth: string = '200px'
-        widthList: string [] = ['50px','100px','150px','200px','250px']
+        widthList: string [] = ['100px','150px','200px','300px','400px','500px','800px']
         required: boolean = false
         userMessage: string = ''
-        thePosition: string = 'left'
-        positionList: string [] = ['left','center','right']
         inputClass: string = ''
         labelClass: string = ''
         classList: string [] = ['', 'redText', 'greenText']
 
-        carBrand: string = 'Cadillac'
-        carList: string [] = ['Acura', 'Audi', 'Buick','BMW', 'Cadillac', 'Chevrolet', 'Dodge', 'Ford', 'Honda','Hyundai','Toyota']
+        rows: string = '3'
+        rowsList: string [] = ['2','3','4','5','6','7','8']
 
+        minLength: string = '10'
+        maxLength: string = '30'
+        lengthList: string [] = ['0','5','10','20','30','60','120']
 
-        theLabel: string = 'Car Brands'
-        labelList: string [] = ['Car Brands', 'Favorite Brands', 'Best Brands', 'Worst Brands']
         theSize: string = 'md'
         sizeList: string [] = ['sm', 'md', 'lg']
-        shadowBorder: boolean = false
-        textCentered: boolean = true
         lastSelectedMsg: string = ''
         eventMessage: string = ''
         keyPressMessage: string = ''
+
+        get numRows() {
+            return parseInt(this.rows)
+        }
 
         onInputHandler(event) {
             this.lastSelectedMsg = event + ' was entered at ' + new Date()
         }
 
         onBlurHandler() {
-            this.eventMessage = 'The SimSelect component NOT focused.'
+            this.eventMessage = 'The SimText component NOT focused.'
         }
 
         onFocusHandler() {
-            this.eventMessage = 'The SimSelect component is now focused.'
+            this.eventMessage = 'The SimText component is now focused.'
         }
 
         onKeyPressHandler(event) {
-            this.keyPressMessage = 'A key was pressed. The input lenght is now ' + parseInt(event.length+ 1)  + ' characters.'
+            this.keyPressMessage = 'A key was pressed. The input length is now ' + parseInt(event.length+ 1)  + ' characters.'
         }
 
         mouseOverHandler(event) {
             if (event > ' ') {
-                this.eventMessage = 'The current value of the SimInput Component is: ' + event + '.'
+                this.eventMessage = 'The current value of the SimText Component is: ' + event + '.'
             }
             else {
-                this.eventMessage = 'The current value of the SimInput Component is blank.'
+                this.eventMessage = 'The current value of the SimText Component is blank.'
             }
         }
 
         mouseLeaveHandler(event) {
-            this.eventMessage = 'The mouse left SimInput Component.'
+            this.eventMessage = 'The mouse left SimText Component.'
         }
 
         @Watch('required')
         onPropertyChanged(value: string, oldValue: string) {
             if (value) {
-                this.testValue = 0
+                this.testValue = ''
                 this.userMessage = 'Click the Submit button to verify the required setting'
             }
         }

@@ -53,11 +53,11 @@
             borderStyle!: string
 
             // either 'sm' or 'lg' or  'md' (medium) is the default
-            @Prop({ default: 'inset', type: String })
+            @Prop({ default: 'md', type: String })
             size!: string
 
             // either 'left' or 'center' or  'right': left is the default
-            @Prop({ default: 'inset', type: String })
+            @Prop({ default: 'left', type: String })
             position!: string
 
             @Prop({ default: false, type: Boolean })

@@ -1,142 +1,149 @@
 <template>
   <body>
-  <link rel="stylesheet" href="https://cdn.byu.edu/theme-fonts/latest/ringside/fonts.css">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.byu.edu/theme-fonts/latest/ringside/fonts.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 
-  <div
-  id="app"
-    class="mx-datepicker"
-    :class="{
-      'mx-datepicker-range': range,
-      'disabled': disabled
-    }"
-    :style="{
-      'width': computedWidth
-    }"
-    v-clickoutside="closePopup">
-    <div class="mx-input-wrapper"
-         @click.stop="showPopup">
-      <div style="display: inline-block">
-        <label :style="labelStyle">{{ label }}</label>
-        <br />
-        <input
-          :class="theClass"
-          :style="theStyle"
-          :name="inputName"
-          v-bind="inputAttr"
-          ref="input"
-          type="text"
-          autocomplete="off"
-          :disabled="disabled"
-          :readonly="!editable"
-          :value="text"
-          :placeholder="innerPlaceholder"
-          @keydown="handleKeydown"
-          @focus="handleFocus"
-          @blur="handleBlur"
-          @input="handleInput"
-          @change="handleChange">
-      </div>
-      <span
-        v-if="showClearIcon"
-        class="mx-input-append mx-clear-wrapper"
-        @click.stop="clearDate">
-        <slot name="mx-clear-icon">
-          <i class="mx-input-icon mx-clear-icon"></i>
-        </slot>
-      </span>
-
-      <span class="mx-input-append">
-         <i class="fas fa-question-circle"></i>
-        <!--
-        <slot name="calendar-icon">
-          <svg v-if="LabelVisible" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 200 200" class="mx-calendar-icon" :style="iconStyle">
-            <rect x="13" y="29" rx="14" ry="14" width="174" height="170" fill="transparent" />
-            <line x1="46" x2="46" y1="8" y2="50" />
-            <line x1="154" x2="154" y1="8" y2="50" />
-            <line x1="13" x2="187" y1="70" y2="70" />
-            <text x="50%" y="135" font-size="90" stroke-width="1" text-anchor="middle" dominant-baseline="middle">{{new Date().getDate()}}</text>
-          </svg>
-          <svg v-else xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 200 200" class="mx-calendar-icon">
-            <rect x="13" y="29" rx="14" ry="14" width="174" height="170" fill="transparent" />
-            <line x1="46" x2="46" y1="8" y2="50" />
-            <line x1="154" x2="154" y1="8" y2="50" />
-            <line x1="13" x2="187" y1="70" y2="70" />
-            <text x="50%" y="135" font-size="90" stroke-width="1" text-anchor="middle" dominant-baseline="middle">{{new Date().getDate()}}</text>
-          </svg>
-
-        </slot>
-        -->
-      </span>
-
-    </div>
-    <div class="mx-datepicker-popup"
-         :style="innerPopupStyle"
-         v-show="popupVisible"
-         @click.stop.prevent
-         ref="calendar">
-      <slot name="header">
-        <div class="mx-shortcuts-wrapper"
-             v-if="range && innerShortcuts.length">
-          <button
-            type="button"
-            class="mx-shortcuts"
-            v-for="(range, index) in innerShortcuts"
-            :key="SimDatePIcker"
-            @click="selectRange(range)">{{range.text}}</button>
+    <div
+    id="app"
+      class="mx-datepicker"
+      :class="{
+        'mx-datepicker-range': range,
+        'disabled': disabled
+      }"
+      :style="{
+        'width': computedWidth
+      }"
+      v-clickoutside="closePopup">
+      <div class="mx-input-wrapper"
+           >
+        <div style="display: inline-block">
+          <label :style="labelStyle">{{ label }}</label>
+          <br />
+          <input
+            :class="theClass"
+            :style="theStyle"
+            :name="inputName"
+            v-bind="inputAttr"
+            ref="input"
+            type="text"
+            autocomplete="off"
+            :disabled="disabled"
+            :readonly="!editable"
+            :value="text"
+            :placeholder="innerPlaceholder"
+            @keydown="handleKeydown"
+            @focus="handleFocus"
+            @blur="handleBlur"
+            @input="handleInput"
+            @change="handleChange">
         </div>
-      </slot>
-      <calendar-panel
-        v-if="!range"
-        v-bind="$attrs"
-        :firstDayOfWeek="firstDayOfWeek"
-        ref="calendarPanel"
-        :index="-1"
-        :type="innerType"
-        :date-format="innerDateFormat"
-        :value="currentValue"
-        :visible="popupVisible"
-        @select-date="selectDate"
-        @select-time="selectTime"></calendar-panel>
-      <div class="mx-range-wrapper"
-           v-else>
+        <!--
+            <span
+
+            v-if="showClearIcon"
+            :class="clearClass"
+            @click.stop="clearDate">
+
+            <slot name="mx-clear-icon">
+              <i class="mx-input-icon mx-clear-icon" style="margin-top: 10px;" @click.stop="clearDate"></i>
+            </slot>
+
+          </span>
+
+        <span @click.stop="clearDate" class="mx-input-append">
+          <slot name="calendar-icon">
+            <svg v-if="LabelVisible" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 200 200" class="mx-calendar-icon" :style="iconStyle">
+              <rect x="13" y="29" rx="14" ry="14" width="174" height="170" fill="transparent" />
+              <line x1="46" x2="46" y1="8" y2="50" />
+              <line x1="154" x2="154" y1="8" y2="50" />
+              <line x1="13" x2="187" y1="70" y2="70" />
+              <text x="50%" y="135" font-size="90" stroke-width="1" text-anchor="middle" dominant-baseline="middle">{{new Date().getDate()}}</text>
+            </svg>
+            <svg v-else xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 200 200" class="mx-calendar-icon">
+              <rect x="13" y="29" rx="14" ry="14" width="174" height="170" fill="transparent" />
+              <line x1="46" x2="46" y1="8" y2="50" />
+              <line x1="154" x2="154" y1="8" y2="50" />
+              <line x1="13" x2="187" y1="70" y2="70" />
+              <text x="50%" y="135" font-size="90" stroke-width="1" text-anchor="middle" dominant-baseline="middle">{{new Date().getDate()}}</text>
+            </svg>
+
+          </slot>
+        </span>
+        -->
+
+        <span @click.stop="clearDate" class="mx-input-append">
+          <slot name="calendar-icon">
+            <i :class="calendarIcon"></i>
+          </slot>
+        </span>
+      </div>
+      <div class="mx-datepicker-popup"
+           :style="innerPopupStyle"
+           v-show="popupVisible"
+           @click.stop.prevent
+           ref="calendar">
+        <slot name="header">
+          <div class="mx-shortcuts-wrapper"
+               v-if="range && innerShortcuts.length">
+            <button
+              type="button"
+              class="mx-shortcuts"
+              v-for="(range, index) in innerShortcuts"
+              :key="SimDatePIcker"
+              @click="selectRange(range)">{{range.text}}</button>
+          </div>
+        </slot>
         <calendar-panel
-          style="box-shadow:1px 0 rgba(0, 0, 0, .1)"
+          v-if="!range"
           v-bind="$attrs"
           :firstDayOfWeek="firstDayOfWeek"
           ref="calendarPanel"
-          :index="0"
+          :index="-1"
           :type="innerType"
           :date-format="innerDateFormat"
-          :value="currentValue[0]"
-          :end-at="currentValue[1]"
-          :start-at="null"
+          :value="currentValue"
           :visible="popupVisible"
-          @select-date="selectStartDate"
-          @select-time="selectStartTime"></calendar-panel>
-        <calendar-panel
-          v-bind="$attrs"
-          :firstDayOfWeek="firstDayOfWeek"
-          :index="1"
-          :type="innerType"
-          :date-format="innerDateFormat"
-          :value="currentValue[1]"
-          :start-at="currentValue[0]"
-          :end-at="null"npm
-          :visible="popupVisible"
-          @select-date="selectEndDate"
-          @select-time="selectEndTime"></calendar-panel>
-      </div>
-      <slot name="footer" :confirm="confirmDate">
-        <div class="mx-datepicker-footer"
-             v-if="confirm">
-          <button type="button"
-                  class="mx-datepicker-btn mx-datepicker-btn-confirm"
-                  @click="confirmDate">{{ confirmText }}</button>
+          @select-date="selectDate"
+          @select-time="selectTime"></calendar-panel>
+        <div class="mx-range-wrapper"
+             v-else>
+          <calendar-panel
+            style="box-shadow:1px 0 rgba(0, 0, 0, .1)"
+            v-bind="$attrs"
+            :firstDayOfWeek="firstDayOfWeek"
+            ref="calendarPanel"
+            :index="0"
+            :type="innerType"
+            :date-format="innerDateFormat"
+            :value="currentValue[0]"
+            :end-at="currentValue[1]"
+            :start-at="null"
+            :visible="popupVisible"
+            @select-date="selectStartDate"
+            @select-time="selectStartTime"></calendar-panel>
+          <calendar-panel
+            v-bind="$attrs"
+            :firstDayOfWeek="firstDayOfWeek"
+            :index="1"
+            :type="innerType"
+            :date-format="innerDateFormat"
+            :value="currentValue[1]"
+            :start-at="currentValue[0]"
+            :end-at="null"npm
+            :visible="popupVisible"
+            @select-date="selectEndDate"
+            @select-time="selectEndTime"></calendar-panel>
         </div>
-      </slot>
+        <slot name="footer" :confirm="confirmDate">
+          <div class="mx-datepicker-footer"
+               v-if="confirm">
+            <button type="button"
+                    class="mx-datepicker-btn mx-datepicker-btn-confirm"
+                    @click="confirmDate">{{ confirmText }}</button>
+          </div>
+        </slot>
+      </div>
     </div>
-  </div>
   </body>
 </template>
 
@@ -282,7 +289,22 @@
         this.hasContent = newValue !== ""
       }
     },
+
     computed: {
+      calendarIcon () {
+        let calendarIcon =  'far fa-calendar-times'
+        if (!this.showClearIcon) {
+          calendarIcon =  'far fa-calendar-alt'
+        }
+        if (this.size === 'sm') {
+          return calendarIcon + " fa-1x smallIcon"
+        }
+        else if (this.size === 'lg') {
+          return  calendarIcon + " fa-2x largeIcon"
+        }
+        return calendarIcon + " fa-2x mediumIcon"
+      },
+
       transform () {
         const type = this.valueType
         if (isPlainObject(type)) {
@@ -437,7 +459,7 @@
           style = style + 'width: 95px; margin-top: -4px;'
         }
         else if (this.size === 'lg') {
-          style = style + 'width: 155px;'
+          style = style + 'width: 155px; padding-left: 10px; padding-right: 10px'
         }
         else {
           style = style + 'width: 115px;'
@@ -493,6 +515,9 @@
       window.removeEventListener('scroll', this._displayPopup)
     },
     methods: {
+      scott () {
+        alert('here')
+      },
       initCalendar () {
         this.handleValueChange(this.value)
         this.displayPopup()
@@ -793,5 +818,16 @@
   input:disabled {
     background-color:#eff1f4;
   }
-
+  .smallIcon {
+    margin-left: 0px;
+    margin-top: 28px;
+  }
+  .mediumIcon {
+    margin-left: 0px;
+    margin-top: 28px;
+  }
+  .largeIcon {
+    margin-left: -20px;
+    margin-top: 28px;
+  }
 </style>

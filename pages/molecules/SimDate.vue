@@ -2,22 +2,18 @@
     <form style="width: 100%">
         <h1 class="text-primary" style="text-align: center">Sim Date Example</h1>
         <div id="app">
-
-
-
         <div class="container">
-            <div style="height: 500px; border: solid black 1px; background-color: #eff1f4; width: 100%">
-
+            <div style="height: 500px; border: solid black 1px; width: 100%">
                 <div class="row">
                     <div class="col-1"></div>
-
                     <div class="col-3">
                         <sim-date
+                                style="background-color: transparent"
                                 v-model="today"
                                 :value="today"
                                 label="Date with data"
                                 placeholder="Place Holder"
-                                size="md"
+                                :size="theSize"
                                 :alwaysShowLabel="alwaysShowLabel"
                         ></sim-date>
                     </div>
@@ -26,89 +22,69 @@
                 </div>
             </div>
 
+            <hr>
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-2">
+                    <sim-select
+                            v-model="theSize"
+                            :value="theSize"
+                            label="Size"
+                            :items="sizeList"
+                            :textCentered=true
+                            width="100px"
 
+                    ></sim-select>
+                </div>
+                <div class="col-2">
+                    <sim-select
+                            v-model="borderStyle"
+                            :value="borderStyle"
+                            label="Border style"
+                            :items="borderList"
+                            :textCentered=true
+                            width="100px"
 
-            <div class="container">
-                <div style="height: 500px; border: solid black 1px; background-color: #eff1f4; width: 100%">
-                    <div class="row">
-                        <div class="col-12" style="justify-content: center">
-                            <sim-date
-                                    v-model="today"
-                                    :value="today"
-                                    label="Date with data"
-                                    placeholder="Place Holder"
-                                    :borderStyle="borderStyle"
-                                    :size="theSize"
-                                    :alwaysShowLabel="alwaysShowLabel"
-                            ></sim-date>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-2"></div>
-                        <div class="col-2">
-                            <sim-select
-                                    v-model="theSize"
-                                    :value="theSize"
-                                    label="Size"
-                                    :items="sizeList"
-                                    :textCentered=true
-                                    width="100px"
-
-                            ></sim-select>
-                        </div>
-                        <div class="col-2">
-                            <sim-select
-                                    v-model="borderStyle"
-                                    :value="borderStyle"
-                                    label="Border style"
-                                    :items="borderList"
-                                    :textCentered=true
-                                    width="100px"
-
-                            ></sim-select>
-                        </div>
-                        <div class="col-2" style="margin-top: 20px">
-                            <input type="checkbox"
-                                   id="disabled"
-                                   :checked="disabled" @click='disabled = !disabled' style="padding-left: 10px; cursor: pointer">
-                            <label for="disabled" style="margin-left: 3px">Disabled</label>
-                        </div>
-                        <div class="col-2" style="margin-top: 20px">
-                            <input type="checkbox"
-                                   id="required"
-                                   :checked="required" @click='required = !required' style="padding-left: 10px; cursor: pointer">
-                            <label for="required" style="margin-left: 3px">Required</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-2"></div>
-                        <div class="col-2">
-
-                        </div>
-                        <div class="col-2">
-
-                        </div>
-                        <div class="col-2" style="margin-top: 20px">
-                            <input type="checkbox"
-                                   id="alwaysShowLabel"
-                                   :checked="alwaysShowLabel" @click='alwaysShowLabel = !alwaysShowLabel' style="padding-left: 10px; cursor: pointer">
-                            <label for="alwaysShowLabel" style="margin-left: 3px">Always Show Label</label>
-                        </div>
-                        <div class="col-2" style="margin-top: 20px">
-                            <button class="btn-primary btn-ml" type="submit" @click="userMessage=''">Submit</button>
-                        </div>
-                    </div>
+                    ></sim-select>
+                </div>
+                <div class="col-2" style="margin-top: 20px">
+                    <input type="checkbox"
+                           id="disabled"
+                           :checked="disabled" @click='disabled = !disabled' style="padding-left: 10px; cursor: pointer">
+                    <label for="disabled" style="margin-left: 3px">Disabled</label>
+                </div>
+                <div class="col-2" style="margin-top: 20px">
+                    <input type="checkbox"
+                           id="required"
+                           :checked="required" @click='required = !required' style="padding-left: 10px; cursor: pointer">
+                    <label for="required" style="margin-left: 3px">Required</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-2">
 
                 </div>
+                <div class="col-2">
 
+                </div>
+                <div class="col-2" style="margin-top: 20px">
+                    <input type="checkbox"
+                           id="alwaysShowLabel"
+                           :checked="alwaysShowLabel" @click='alwaysShowLabel = !alwaysShowLabel' style="padding-left: 10px; cursor: pointer">
+                    <label for="alwaysShowLabel" style="margin-left: 3px">Always Show Label</label>
+                </div>
+                <div class="col-2" style="margin-top: 20px">
+                    <button class="btn-primary btn-ml" type="submit" @click="userMessage=''">Submit</button>
+                </div>
             </div>
+
         </div>
     </form>
 </template>
 
 <script>
-    import SimDate from '~/components/molecules/sim-date/SimDate.vue'
+    import SimDate from '~/components/molecules/sim-date/index.vue'
     import SimSelect from '~/components/molecules/SimSelect.vue'
 
     export default {
@@ -124,6 +100,8 @@
                 borderStyle: 'inset',
                 borderList: ['none', 'inset', 'outset','shadow', 'solid'],
                 required: false,
+                sizeList: ['sm','md','lg'],
+                theSize: 'md',
 
                 blankDate: '',
                 newValue: '',
@@ -143,8 +121,7 @@
                 blankNumber: '',
                 twoDecimals: 2,
                 today: '12 JUN 2019',
-                sizeList: ['sm','md','lg'],
-                theSize: 'md',
+
                 numberWidth: '80px',
                 selectWidth: '100px',
                 currencySymbol: '',
@@ -156,13 +133,7 @@
                 yesNoList: ['Yes','No'],
             };
         },
-        computed: {
 
-        },
-
-        mounted() {
-
-        },
         methods: {
             onBlurHandler() {
                 this.focused = false

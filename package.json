@@ -16,6 +16,8 @@
     "stylus": "^0.54.7",
     "vue": "^2.6.11",
     "vue-material-design-icons": "^4.4.0",
+    "vue-observe-visibility": "^0.4.6",
+    "vue-resize": "^0.4.5",
     "vue-template-compiler": "^2.6.11"
   },
   "devDependencies": {

@@ -108,6 +108,11 @@ export default class DefaultView extends Vue {
           title: 'Sim Simple Table',
           path: '/organisms/simSimpleTable',
           icon: 'mdi-table-large'
+        },
+        {
+          title: 'Sim Table',
+          path: '/organisms/SimTable',
+          icon: 'mdi-table-large'
         }
       ]
     }

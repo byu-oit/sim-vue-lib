@@ -1,10 +1,12 @@
 <template>
+
   <div class="mx-calendar"
+
     :class="'mx-calendar-panel-' + panel.toLowerCase()">
     <div class="mx-calendar-header">
       <a
         v-show="panel !== 'TIME'"
-        class="mx-icon-last-year"
+        class="mx-icon-last-yearx"
         @mouseover="bYearHover = true"
         @mouseleave="bYearHover = false"
         @click="handleIconYear(-1)">&#171;</a>
@@ -46,6 +48,7 @@
         class="mx-time-header"
         @click="handleTimeHeader">{{timeHeader}}</a>
     </div>
+
     <div class="mx-calendar-content">
       <panel-date
         v-show="panel === 'DATE'"
@@ -445,3 +448,7 @@ export default {
 }
 </script>
 
+<style lang="scss">
+  @import './index.scss';
+
+</style>

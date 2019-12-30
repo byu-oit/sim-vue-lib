@@ -65,7 +65,6 @@ export default {
       for (let i = 0; i < nextMonthLength; i++) {
         arr.push({ year, month: month + 1, day: 1 + i })
       }
-
       return arr
     },
     getCellClasses ({ year, month, day }) {
@@ -101,6 +100,7 @@ export default {
           classes.push('inrange')
         }
       }
+      console.log('classes = ', classes)
       return classes
     },
     getCellTitle ({ year, month, day }) {

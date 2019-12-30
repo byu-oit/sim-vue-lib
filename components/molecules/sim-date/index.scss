@@ -269,6 +269,7 @@ $primary-color: #1284e7;
     }
     &.last-month,
     &.next-month {
+      display: none;
       color: #ddd;
     }
   }
@@ -294,7 +295,8 @@ $primary-color: #1284e7;
 }
 
 .mx-time-list {
-  position: relative; // 定位 offsetParent
+  /* 定位 offsetParent */
+  position: relative;
   float: left;
   margin: 0;
   padding: 0;

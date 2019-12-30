@@ -25,7 +25,10 @@
 </template>
 
 <script>
-  import accounting from '/.accounting.min'
+  import settings from "accounting-js/lib/settings";
+  import _checkPrecision from "accounting-js/lib/internal/checkPrecision";
+  import _checkCurrencyFormat from "accounting-js/lib/internal/checkCurrencyFormat";
+  import formatNumber from "accounting-js/lib/formatNumber";
 
   export default {
     name: 'sim-formatted-number',
@@ -180,14 +183,14 @@
        * @return {Number}
        */
       amountNumber () {
-        return this.unformat(this.amount)
+        return this.unformatValue(this.amount)
       },
       /**
        * Number type of value props.
        * @return {Number}
        */
       valueNumber () {
-        return this.unformat(this.value)
+        return this.unformatValue(this.value)
       },
       /**
        * Define decimal separator based on separator props.
@@ -377,7 +380,7 @@
         if (this.valueNumber === 0) {
           this.amount = null
         } else {
-          this.amount = accounting.formatMoney(this.valueNumber, {
+          this.amount = this.formatMoney(this.valueNumber, {
             symbol: '',
             format: '%v',
             thousand: '',
@@ -407,7 +410,7 @@
        * @param {Number} value
        */
       update (value) {
-        this.$emit('input', Number(accounting.toFixed(value, this.precision)))
+        this.$emit('input', Number(this.toFixed(value, this.precision)))
       },
       /**
        * Format value using symbol and separator.
@@ -415,7 +418,7 @@
        * @return {String}
        */
       format (value) {
-        return accounting.formatMoney(value, {
+        return this.formatMoney(value, {
           symbol: this.currency,
           format: this.symbolPosition,
           precision: Number(this.precision),
@@ -428,9 +431,79 @@
        * @param {Number} value
        * @return {Number}
        */
-      unformat (value) {
+      unformatValue (value) {
         const toUnformat = typeof value === 'string' && value === '' ? this.emptyValue : value
-        return accounting.unformat(toUnformat, this.decimalSeparatorSymbol)
+        return this.unformat(toUnformat, this.decimalSeparatorSymbol)
+      },
+
+      unformat(value, decimal = settings.decimal, fallback = settings.fallback) {
+        // Recursively unformat arrays:
+        if (Array.isArray(value)) {
+          return value.map((val) => unformat(val, decimal, fallback));
+        }
+
+        // Return the value as-is if it's already a number:
+        if (typeof value === 'number') return value;
+
+        // Build regex to strip out everything except digits, decimal point and minus sign:
+        const regex = new RegExp('[^0-9-(-)-' + decimal + ']', ['g']);
+        const unformattedValueString =
+            ('' + value)
+                    .replace(regex, '')         // strip out any cruft
+                    .replace(decimal, '.')      // make sure decimal point is standard
+                    .replace(/\(([-]*\d*[^)]?\d+)\)/g, '-$1') // replace bracketed values with negatives
+                    .replace(/\((.*)\)/, '');   // remove any brackets that do not have numeric value
+
+        /**
+        * Handling -ve number and bracket, eg.
+        * (-100) = 100, -(100) = 100, --100 = 100
+        */
+        const negative = (unformattedValueString.match(/-/g) || 2).length % 2,
+            absUnformatted = parseFloat(unformattedValueString.replace(/-/g, '')),
+            unformatted = absUnformatted * ((negative) ? -1 : 1);
+
+        // This will fail silently which may cause trouble, let's wait and see:
+        return !isNaN(unformatted) ? unformatted : fallback;
+      },
+
+      toFixed(value, precision) {
+        precision = _checkPrecision(precision, settings.precision);
+        const power = Math.pow(10, precision);
+
+        // Multiply up by precision, round accurately, then divide and use native toFixed():
+        return (Math.round((value + 1e-8) * power) / power).toFixed(precision);
+      },
+
+      formatMoney(number, opts = {}) {
+      // Resursively format arrays:
+      if (Array.isArray(number)) {
+        return number.map((val) => formatMoney(val, opts));
+      }
+
+      // Build options object from second param (if object) or all params, extending defaults:
+      opts = objectAssign({},
+            settings,
+            opts
+      );
+
+      // Check format (returns object with pos, neg and zero):
+      const formats = _checkCurrencyFormat(opts.format);
+
+      // Choose which format to use for this value:
+      let useFormat;
+
+      if (number > 0) {
+        useFormat = formats.pos;
+      } else if (number < 0) {
+        useFormat = formats.neg;
+      } else {
+        useFormat = formats.zero;
+      }
+
+      // Return with currency symbol added:
+      return useFormat
+            .replace('%s', opts.symbol)
+            .replace('%v', formatNumber(Math.abs(number), opts));
       }
     }
   }

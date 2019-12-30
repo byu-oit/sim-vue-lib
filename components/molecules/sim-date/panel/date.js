@@ -100,7 +100,6 @@ export default {
           classes.push('inrange')
         }
       }
-      console.log('classes = ', classes)
       return classes
     },
     getCellTitle ({ year, month, day }) {

@@ -130,7 +130,7 @@
             :date-format="innerDateFormat"
             :value="currentValue[1]"
             :start-at="currentValue[0]"
-            :end-at="null"npm
+            :end-at="null" | npm
             :visible="popupVisible"
             @select-date="selectEndDate"
             @select-time="selectEndTime"></calendar-panel>
@@ -168,7 +168,7 @@
       value: null,
       valueType: {
         default: 'date',
-        validator: function (value) {
+        validator (value) {
           return ['timestamp', 'format', 'date'].indexOf(value) !== -1 || isPlainObject(value)
         }
       },
@@ -272,10 +272,12 @@
       }
     },
     watch: {
+      /*
       value: {
         immediate: true,
         handler: 'handleValueChange'
       },
+      */
       popupVisible (val) {
         if (val) {
           this.initCalendar()
@@ -284,7 +286,7 @@
           this.blur()
         }
       },
-      value: function (newValue) {
+      value (newValue) {
         if (newValue === null) {
           this.theValue = ''
         }
@@ -711,16 +713,16 @@
         }
       },
       updateCalendar() {
-        var theDate = ''
-        var dayInt = 0
-        var dayStr = ''
-        var month = 0
-        var monthStr = ''
-        var year = ''
+        let theDate = '' as string
+        let dayInt = 0 as number
+        let dayStr = '' as string
+        let month = 0 as number
+        let monthStr = '' as string
+        let year = '' as string
         // If they have entered at least the day of the month
         if (this.text.length >= 2) {
           // get the current date
-          var d = new Date()
+          const d = new Date()
           month = d.getMonth() + 1
           if (month < 10) {
             monthStr = '0' + month
@@ -738,7 +740,7 @@
         }
         // If they have entered at least the month
         if (this.text.length >= 6) {
-          var months = ['Jan', 'Feb', 'Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+          const months = ['Jan', 'Feb', 'Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
           monthStr = this.text.substr(3,3)
           month = months.indexOf(monthStr)
           month++

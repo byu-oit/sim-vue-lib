@@ -29,6 +29,7 @@
             autocomplete="off"
             :disabled="disabled"
             :readonly="!editable"
+            :required="required"
             :value="text"
             :placeholder="innerPlaceholder"
             @keydown="handleKeydown"
@@ -249,6 +250,10 @@
       borderStyle: {
         type: String,
         default: 'inset'
+      },
+      required: {
+        type: Boolean,
+        default: false
       },
       alwaysShowLabel: {
         type: Boolean,

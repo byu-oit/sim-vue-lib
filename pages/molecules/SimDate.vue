@@ -12,8 +12,11 @@
                                 v-model="today"
                                 :value="today"
                                 label="Date with data"
+                                :borderStyle="borderStyle"
                                 placeholder="Place Holder"
                                 :size="theSize"
+                                :disabled="disabled"
+                                :required="required"
                                 :alwaysShowLabel="alwaysShowLabel"
                         ></sim-date>
                     </div>
@@ -113,7 +116,7 @@
                 input5: 'Normal Border',
                 input6: '',
                 input7: '234',
-                disabled: true,
+                disabled: false,
                 itemsList: ['Ford','Chevrolet','Lexus','BMW','Mazda','Hyundai','Honda','Toyota','Dodge','Fiat','Jaguar'],
                 itemValue: 'Mazda',
                 itemValue2: '',

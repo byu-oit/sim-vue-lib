@@ -713,12 +713,12 @@
         }
       },
       updateCalendar() {
-        let theDate = '' as string
-        let dayInt = 0 as number
-        let dayStr = '' as string
-        let month = 0 as number
-        let monthStr = '' as string
-        let year = '' as string
+        let theDate = ''
+        let dayInt = 0
+        let dayStr = ''
+        let month = 0
+        let monthStr = ''
+        let year = ''
         // If they have entered at least the day of the month
         if (this.text.length >= 2) {
           // get the current date

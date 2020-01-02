@@ -87,83 +87,74 @@
     </form>
 </template>
 
-<script>
-    import SimSelect from "./../../components/molecules/SimSelect"
-    import SimNumber from "./../../components/molecules/SimNumber"
+<script lang="ts">
+    import { Component,  Watch, Vue } from 'nuxt-property-decorator'
+    import SimNumber from '~/components/molecules/SimNumber.vue'
+    import SimSelect from '~/components/molecules/SimSelect.vue'
 
-    export default {
-        name: "Inputs",
+    @Component({
         components: {
-            SimSelect,
             SimNumber,
+            SimSelect
+        }
+    })
 
-        },
-        data() {
-            return {
-                theWidth: '100px',
-                widthList: ['75px','100px','125px','150px','175px'],
-                focused: false,
-                blankDate: '',
-                newValue: '',
-                testValue: 'This is a test',
-                input1: 'Sim-Input',
-                input2: 'This is disabled',
-                input3: '',
-                input4: 'No Label',
-                input5: 'Normal Border',
-                input6: '',
-                input7: '234',
-                disabled: true,
-                itemsList: ['Ford','Chevrolet','Lexus','BMW','Mazda','Hyundai','Honda','Toyota','Dodge','Fiat','Jaguar'],
-                itemValue: 'Mazda',
-                itemValue2: '',
-                numberValue: 234.56,
-                blankNumber: '',
-                twoDecimals: 2,
-                today: '12 JUN 2019',
-                sizeList: ['sm','md','lg'],
-                theSize: 'md',
-                currencySymbol: '',
-                currencies: ['','$','€','£'],
-                decPrecision: '2',
-                decPrecisionList: ['0','1','2','3','4','5'],
-                alwaysShowLabel: false,
-                showLabel: 'No',
-                yesNoList: ['Yes','No'],
-            };
-        },
-        computed: {
-            precision () {
-                return Number(this.decPrecision)
-            }
-        },
+    export default class App extends Vue {
+        theWidth: string = '100px'
+        widthList: string [] = ['75px','100px','125px','150px','175px']
+        focused: boolean = false
+        blankDate: string =  ''
+        newValue: string =  ''
+        testValue: string =  'This is a test'
+        input1: string =  'Sim-Input'
+        input2: string =  'This is disabled'
+        input3: string =  ''
+        input4: string =  'No Label'
+        input5: string =  'Normal Border'
+        input6: string =  ''
+        input7: string =  '234'
+        disabled: boolean = true
+        itemValue2: string =  ''
+        numberValue: number = 234.56
+        blankNumber: string = ''
+        twoDecimals: number = 2
+        today: string = '12 JUN 2019'
+        sizeList: string [] = ['sm','md','lg']
+        theSize: string = 'md'
+        currencySymbol: string = ''
+        currencies: string [] = ['','$','€','£']
+        decPrecision: string = '2'
+        decPrecisionList: string [] = ['0','1','2','3','4','5']
+        alwaysShowLabel: boolean = false
+        showLabel: string = 'No'
+        yesNoList: string [] = ['Yes','No']
 
-        watch: {
-
-        },
-
-        mounted() {
-
-        },
-        methods: {
-            onBlurHandler() {
-                this.focused = false
-            },
-            onInputHandler(event) {
-                this.newValue = event
-            },
-            onFocusHandler() {
-                this.focused = true
-            },
-            setShowLabel(event) {
-                this.alwaysShowLabel = (event === 'Yes')
-                this.showLabel = event
-            },
-            changeCurrency(event) {
-                this.currencySymbol = event
-            }
+        /// Computed
+        get precision () {
+            return Number(this.decPrecision)
         }
 
+        /// Methods
+        onBlurHandler() {
+            this.focused = false
+        }
+
+        onInputHandler(event) {
+            this.newValue = event
+        }
+
+        onFocusHandler() {
+            this.focused = true
+        }
+
+        setShowLabel(event) {
+            this.alwaysShowLabel = (event === 'Yes')
+            this.showLabel = event
+        }
+
+        changeCurrency(event) {
+            this.currencySymbol = event
+        }
     };
 </script>
 

@@ -97,6 +97,11 @@ export default class DefaultView extends Vue {
           title: 'Sim Date',
           path: '/molecules/SimDate',
           icon: 'mdi-test-tube'
+        },
+        {
+          title: 'Sim Number',
+          path: '/molecules/SimNumber',
+          icon: 'mdi-test-tube'
         }
       ]
     },

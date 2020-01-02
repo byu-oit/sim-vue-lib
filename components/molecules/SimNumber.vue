@@ -1,4 +1,3 @@
-<script src="accounting.min.js"></script>
 <template>
     <div class="container">
         <div class = row h-25>
@@ -26,7 +25,13 @@
 </template>
 
 <script>
-    import accounting from './accounting.min.js'
+
+    import settings from "accounting-js/lib/settings";
+    import _checkCurrencyFormat from "accounting-js/lib/internal/checkCurrencyFormat";
+    import formatMoney from "accounting-js/lib/formatMoney"
+    import formatNumber from "accounting-js/lib/formatNumber";
+    import unformat from "accounting-js/lib/unformat";
+    import toFixed from "accounting-js/lib/toFixed";
 
     export default {
         name: 'sim-formatted-number',
@@ -161,7 +166,7 @@
             // either 'sm' or 'lg'
             size: {
                 type: String,
-                default: ''
+                default: 'md'
             },
             required: {
                 type: String,
@@ -181,14 +186,14 @@
              * @return {Number}
              */
             amountNumber () {
-                return this.unformat(this.amount)
+                return unformat(this.amount)
             },
             /**
              * Number type of value props.
              * @return {Number}
              */
             valueNumber () {
-                return this.unformat(this.value)
+                return unformat(this.value)
             },
             /**
              * Define decimal separator based on separator props.
@@ -290,6 +295,7 @@
             },
 
             theClass() {
+                console.log('this.size = ', this.size)
                 if (this.size === 'sm') {
                     return 'form-control form-control-sm'
                 }
@@ -365,7 +371,7 @@
              * Handle blur event.
              * @param {Object} e
              */
-            onBlurHandler (e) {
+            onBlurHandler(e) {
                 this.$emit('blur', e)
                 this.amount = this.format(this.valueNumber)
             },
@@ -373,7 +379,7 @@
              * Handle focus event.
              * @param {Object} e
              */
-            onFocusHandler (e) {
+            onFocusHandler(e) {
                 this.$emit('focus', e)
                 if (this.valueNumber === 0) {
                     this.amount = null
@@ -390,14 +396,14 @@
             /**
              * Handle input event.
              */
-            onInputHandler () {
+            onInputHandler() {
                 this.process(this.amountNumber)
             },
             /**
              * Validate value before update the component.
              * @param {Number} value
              */
-            process (value) {
+            process(value) {
                 if (value >= this.max) this.update(this.max)
                 if (value <= this.min) this.update(this.min)
                 if (value > this.min && value < this.max) this.update(value)
@@ -407,16 +413,16 @@
              * Update parent component model value.
              * @param {Number} value
              */
-            update (value) {
-                this.$emit('input', Number(accounting.toFixed(value, this.precision)))
+            update(value) {
+                this.$emit('input', Number(toFixed(value, this.precision)))
             },
             /**
              * Format value using symbol and separator.
              * @param {Number} value
              * @return {String}
              */
-            format (value) {
-                return accounting.formatMoney(value, {
+            format(value) {
+                return formatMoney(value, {
                     symbol: this.currency,
                     format: this.symbolPosition,
                     precision: Number(this.precision),
@@ -428,11 +434,13 @@
              * Remove symbol and separator.
              * @param {Number} value
              * @return {Number}
-             */
-            unformat (value) {
+
+            unformat(value) {
                 const toUnformat = typeof value === 'string' && value === '' ? this.emptyValue : value
-                return accounting.unformat(toUnformat, this.decimalSeparatorSymbol)
-            }
+                return this.unformat(toUnformat, this.decimalSeparatorSymbol)
+            },
+             */
+
         }
     }
 </script>
@@ -457,4 +465,3 @@
     }
 
 </style>
-

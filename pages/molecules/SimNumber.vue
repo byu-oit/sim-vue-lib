@@ -16,8 +16,14 @@
                                     :currency="currencySymbol"
                                     label="Number"
                                     :size="theSize"
+                                    :disabled="disabled"
+                                    :borderStyle="borderStyle"
                                     :precision="precision"
                                     :width="theWidth"
+                                    :max="maxValue"
+                                    :min="minValue"
+                                    :minus="allowMinus"
+                                    v-on:input="onInputHandler"
                             ></sim-number>
                         </div>
                     </div>
@@ -40,9 +46,8 @@
                         <div class="col-2">
                             <sim-select
                                     v-model="theSize"
-                                    label="Component Size"
+                                    label="Size"
                                     :items="sizeList"
-                                    v-on:input="sizeChanged($event)"
                                     :textCentered=true
                                     width="100px"
                             ></sim-select>
@@ -52,7 +57,6 @@
                                     v-model="currencySymbol"
                                     label="Currency Symbol"
                                     :items="currencies"
-                                    v-on:input="changeCurrency($event)"
                                     :textCentered=true
                                     width="100px"
                             ></sim-select>
@@ -61,7 +65,7 @@
                             <sim-select
                                     v-model="decPrecision"
                                     :value="decPrecision"
-                                    label="Decimal Precision"
+                                    label="Decimals"
                                     :items="decPrecisionList"
                                     :textCentered=true
                                     width="100px"
@@ -69,17 +73,57 @@
                             ></sim-select>
                         </div>
                         <div class="col-2">
+                            <input type="checkbox"
+                                   id="alwaysShowLabel"
+                                   :checked="alwaysShowLabel" @click='alwaysShowLabel = !alwaysShowLabel' style="padding-left: 10px; cursor: pointer">
+                            <label for="alwaysShowLabel" style="margin-left: 3px">Always Show Label</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="col-2">
                             <sim-select
-                                    v-model="showLabel"
-                                    label="Always Show Label"
-                                    :items="yesNoList"
-                                    v-on:input="setShowLabel($event)"
+                                    v-model="maxValueStr"
+                                    :value="maxValueStr"
+                                    label="Max Value"
+                                    :items="maxValueList"
                                     :textCentered=true
                                     width="100px"
                             ></sim-select>
                         </div>
+                        <div class="col-2">
+                            <sim-select
+                                    v-model="minValueStr"
+                                    :value="minValueStr"
+                                    label="Min Value"
+                                    :items="minValueList"
+                                    :textCentered=true
+                                    width="100px"
+                            ></sim-select>
+                        </div>
+                        <div class="col-2" style="margin-top: 20px">
+                            <input type="checkbox"
+                                   id="allowMinus"
+                                   :checked="allowMinus" @click='allowMinus = !allowMinus' style="padding-left: 10px; cursor: pointer">
+                            <label for="allowMinus" style="margin-left: 3px">Allow Minus</label>
+                        </div>
+                        <div class="col-2">
+                            <sim-select
+                                    v-model="borderStyle"
+                                    :value="borderStyle"
+                                    label="Border style"
+                                    :items="borderList"
+                                    :textCentered=true
+                                    width="100px"
+                            ></sim-select>
+                        </div>
+                        <div class="col-2" style="margin-top: 20px">
+                            <input type="checkbox"
+                                   id="disabled"
+                                   :checked="disabled" @click='disabled = !disabled' style="padding-left: 10px; cursor: pointer">
+                            <label for="disabled" style="margin-left: 3px">Disabled</label>
+                        </div>
                     </div>
-
                 </div>
 
             </div>
@@ -103,36 +147,39 @@
         theWidth: string = '100px'
         widthList: string [] = ['75px','100px','125px','150px','175px']
         focused: boolean = false
-        blankDate: string =  ''
         newValue: string =  ''
-        testValue: string =  'This is a test'
-        input1: string =  'Sim-Input'
-        input2: string =  'This is disabled'
-        input3: string =  ''
-        input4: string =  'No Label'
-        input5: string =  'Normal Border'
-        input6: string =  ''
-        input7: string =  '234'
-        disabled: boolean = true
-        itemValue2: string =  ''
-        numberValue: number = 234.56
-        blankNumber: string = ''
-        twoDecimals: number = 2
-        today: string = '12 JUN 2019'
+        disabled: boolean = false
+        required: boolean = false
+        valueString: number = 0
         sizeList: string [] = ['sm','md','lg']
         theSize: string = 'md'
+        borderStyle: string = 'inset'
+        borderList: string [] = ['none', 'inset', 'outset','shadow', 'solid']
         currencySymbol: string = ''
         currencies: string [] = ['','$','€','£']
         decPrecision: string = '2'
         decPrecisionList: string [] = ['0','1','2','3','4','5']
         alwaysShowLabel: boolean = false
-        showLabel: string = 'No'
-        yesNoList: string [] = ['Yes','No']
+        maxValueStr: string = '1000'
+        maxValueList: string [] = ['10','20','30','50','100','1000','10000']
+        minValueStr: string = '-1000'
+        minValueList: string [] = ['-10','-20','-30','-50','-100','-1000','-10000']
+        numberValue: number  = 293.44
+        allowMinus: boolean = true
 
         /// Computed
         get precision () {
             return Number(this.decPrecision)
         }
+
+        get maxValue () {
+            return Number(this.maxValueStr)
+        }
+
+        get minValue () {
+            return Number(this.minValueStr)
+        }
+
 
         /// Methods
         onBlurHandler() {
@@ -140,21 +187,14 @@
         }
 
         onInputHandler(event) {
-            this.newValue = event
+            this.valueString = event
         }
 
         onFocusHandler() {
             this.focused = true
         }
 
-        setShowLabel(event) {
-            this.alwaysShowLabel = (event === 'Yes')
-            this.showLabel = event
-        }
 
-        changeCurrency(event) {
-            this.currencySymbol = event
-        }
     };
 </script>
 

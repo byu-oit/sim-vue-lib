@@ -1,24 +1,24 @@
 <template>
     <div class="container">
         <div class = row h-25>
-            <label :style="labelStyle">{{ label }}</label>
+            <label :style="labelStyle">{{ theLabel }}</label>
         </div>
         <div class = row h-75>
             <input
+                    v-model="amount"
+                    ref="numeric"
+                    type="tel"
                     :placeholder="placeHolder"
                     :class="theClass"
                     :style="theStyle"
-                    @blur="onBlurHandler"
-                    @input="onInputHandler"
-                    @focus="onFocusHandler"
-                    ref="numeric"
-                    type="tel"
-                    v-model="amount"
                     :readonly="disabled"
                     :disabled="disabled"
                     :required="required"
+                    @change="onChangeHandler"
+                    @blur="onBlurHandler"
+                    @input="onInputHandler"
+                    @focus="onFocusHandler"
             />
-
         </div>
 
     </div>
@@ -26,12 +26,7 @@
 
 <script lang="ts">
     import { Component, Vue, Prop, Watch } from 'nuxt-property-decorator'
-    import settings from "./../../node_modules/accounting-js/lib/settings";
-    import _checkCurrencyFormat from "./../../node_modules/accounting-js/lib/internal/checkCurrencyFormat";
-    import formatMoney from "./../../node_modules/accounting-js/lib/formatMoney"
-    import formatNumber from "./../../node_modules/accounting-js/lib/formatNumber";
-    import unformat from "./../../node_modules/accounting-js/lib/unformat";
-    import toFixed from "./../../node_modules/accounting-js/lib/toFixed";
+    import {formatMoney, toFixed, unformat} from 'accounting'
 
     @Component
     export default class SimNumber extends Vue {
@@ -76,7 +71,7 @@
 
         /* v-model value. */
         @Prop({ default: 0, type: Number })
-        value!: string | number
+        value!: number
 
         /* Hide input and show value in text only. */
         @Prop({ default: false, type: Boolean })
@@ -122,7 +117,10 @@
         alwaysShowLabel!: boolean
 
         /// Data
-        amount: string | null = '234.45'
+        amount: string = ''
+        theLabel: string = this.label
+        origLabel: string = this.label
+        limitsExceeded: boolean = false
 
         /// Computed
         /**
@@ -131,14 +129,6 @@
          */
         get amountNumber () {
             return unformat(this.amount)
-        }
-
-        /**
-         * Number type of value props.
-         * @return {Number}
-         */
-        get valueNumber () {
-            return unformat(this.value)
         }
 
         /**
@@ -160,6 +150,14 @@
             if (this.separator === '.') return '.'
             if (this.separator === 'space') return ' '
             return ','
+        }
+
+        /**
+         * Number type of value props.
+         * @return {Number}
+         */
+        get valueNumber () {
+            return unformat(this.value.toString())
         }
 
         /**
@@ -231,13 +229,18 @@
             if (!this.alwaysShowLabel) {
                 if ((!this.placeholder) && (!this.value) && (!this.disabled)) {
                     style = style + 'visibility: hidden; '
-                } else if ((this.value === 0) && (!this.disabled)) {
+                } else if ((!this.value) && (!this.disabled)) {
                     style = style + 'visibility: hidden; '
                 }
             }
             if (this.label === '**') {
                 style = style + 'color: transparent; '
             }
+
+            if (this.limitsExceeded) {
+                style = style + 'color: red; '
+            }
+
 
             if (this.size === 'sm') {
                 return style + 'font-size: 12px; padding-top: 6px; margin-bottom: -2px'
@@ -345,8 +348,9 @@
         onFocusHandler(e) {
             this.$emit('focus', e)
             if (this.valueNumber === 0) {
-                this.amount = null
-            } else {
+                this.amount = ''
+            }
+            else {
                 this.amount = formatMoney(this.valueNumber, {
                     symbol: '',
                     format: '%v',
@@ -355,6 +359,31 @@
                     precision: Number(this.precision)
                 })
             }
+        }
+
+        onChangeHandler() {
+            /// Check for non valid entries
+            let label = ''
+            if ((Number(this.amount) < 0) && (!this.minus)) {
+                label = 'Negative values not allowed'
+            }
+            else if (Number(this.amount) < this.min) {
+                label = 'Exceeded minimum value'
+            }
+            else if (Number(this.amount) > this.max) {
+                label = 'Exceeded maximum value'
+            }
+
+            if (label !== '') {
+                this.theLabel = label
+                this.limitsExceeded = true
+
+                setTimeout(() => {
+                    this.limitsExceeded = false
+                    this.theLabel = this.origLabel
+                }, 3000)
+            }
+            this.process(this.value)
         }
 
         /**
@@ -397,17 +426,6 @@
                 thousand: this.thousandSeparatorSymbol
             })
         }
-
-        /**
-         * Remove symbol and separator.
-         * @param {Number} value
-         * @return {Number}
-
-        unformat(value) {
-            const toUnformat = typeof value === 'string' && value === '' ? this.emptyValue : value
-            return this.unformat(toUnformat, this.decimalSeparatorSymbol)
-        },
-         */
     }
 </script>
 

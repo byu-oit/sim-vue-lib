@@ -2,7 +2,6 @@
   <body>
     <link rel="stylesheet" href="https://cdn.byu.edu/theme-fonts/latest/ringside/fonts.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-
     <div
     id="app"
       class="mx-datepicker"
@@ -14,10 +13,9 @@
         'width': computedWidth
       }"
       v-clickoutside="closePopup">
-      <div class="mx-input-wrapper"
-           >
+      <div class="" :style="divStyle">
         <div style="display: inline-block">
-          <label :style="labelStyle">{{ label }}</label>
+          <label :class="labelClass" :style="labelStyle">{{ label }}</label>
           <br />
           <input
             :class="theClass"
@@ -32,49 +30,18 @@
             :required="required"
             :value="text"
             :placeholder="innerPlaceholder"
-            @keydown="handleKeydown"
-            @focus="handleFocus"
-            @blur="handleBlur"
-            @input="handleInput"
-            @change="handleChange">
+            @keypress="event => { $emit('keypress', event.target.value) }"
+            @change="event => { $emit('input', event.target.value) }"
+            @focus="event => { $emit('focus', event.target.value) }"
+            @blur="event => { $emit('blur', event.target.value) }"
+            @mouseover="event => { $emit('mouseover', event.target.value) }"
+            @mouseleave="event => { $emit('mouseleave', event.target.value) }"
+          >
         </div>
-        <!--
-            <span
 
-            v-if="showClearIcon"
-            :class="clearClass"
-            @click.stop="clearDate">
-
-            <slot name="mx-clear-icon">
-              <i class="mx-input-icon mx-clear-icon" style="margin-top: 10px;" @click.stop="clearDate"></i>
-            </slot>
-
-          </span>
-
-        <span @click.stop="clearDate" class="mx-input-append">
+        <span @click.stop="clearDate" style="float: right">
           <slot name="calendar-icon">
-            <svg v-if="LabelVisible" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 200 200" class="mx-calendar-icon" :style="iconStyle">
-              <rect x="13" y="29" rx="14" ry="14" width="174" height="170" fill="transparent" />
-              <line x1="46" x2="46" y1="8" y2="50" />
-              <line x1="154" x2="154" y1="8" y2="50" />
-              <line x1="13" x2="187" y1="70" y2="70" />
-              <text x="50%" y="135" font-size="90" stroke-width="1" text-anchor="middle" dominant-baseline="middle">{{new Date().getDate()}}</text>
-            </svg>
-            <svg v-else xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 200 200" class="mx-calendar-icon">
-              <rect x="13" y="29" rx="14" ry="14" width="174" height="170" fill="transparent" />
-              <line x1="46" x2="46" y1="8" y2="50" />
-              <line x1="154" x2="154" y1="8" y2="50" />
-              <line x1="13" x2="187" y1="70" y2="70" />
-              <text x="50%" y="135" font-size="90" stroke-width="1" text-anchor="middle" dominant-baseline="middle">{{new Date().getDate()}}</text>
-            </svg>
-
-          </slot>
-        </span>
-        -->
-
-        <span @click.stop="clearDate" class="mx-input-append">
-          <slot name="calendar-icon">
-            <i :class="calendarIcon"></i>
+            <i :class="calendarIcon" style="margin-top: 25px"></i>
           </slot>
         </span>
       </div>
@@ -258,6 +225,18 @@
       alwaysShowLabel: {
         type: Boolean,
         default: false
+      },
+      labelClass: {
+        type: String,
+        default: ''
+      },
+      inputClass: {
+        type: String,
+        default: ''
+      },
+      underlineOnFocus: {
+        type: Boolean,
+        default: true
       }
 
     },
@@ -403,7 +382,9 @@
         ]
         return arr
       },
+
       innerDateFormat () {
+        console.log('here')
         if (this.dateFormat) {
           return this.dateFormat
         }
@@ -411,6 +392,9 @@
           return 'YYYY-MM-DD'
         }
         if (this.innerType === 'date') {
+          if (this.format === '') {
+            this.format = 'DD MMM YYYY'
+          }
           return this.format
         }
         return this.format.replace(/[Hh]+.*[msSaAZ]|\[.*?\]/g, '').trim() || 'YYYY-MM-DD'
@@ -424,20 +408,17 @@
       LabelVisible() {
         return ((this.value !== '') || (this.label > '') || (!this.editable))
       },
+
       labelStyle() {
         let style = ''
-
         if (!this.alwaysShowLabel) {
-          if ((!this.placeholder) && (!this.value) && (!this.disabled)) {
-            style = style + 'visibility: hidden; '
-          } else if ((this.value === '') && (!this.disabled)) {
+          if ((!this.theValue) && (!this.disabled)) {
             style = style + 'visibility: hidden; '
           }
         }
         if (this.label === '**') {
-          style = style + 'visibility: hidden; '
+          style = style + 'color: transparent; '
         }
-
         if (this.size === 'sm') {
           return style + 'font-size: 12px; padding-top: 6px; margin-bottom: -2px'
         }
@@ -448,43 +429,63 @@
           return style + 'font-size: 14px; padding-top: 3px; margin-bottom: -2px'
         }
       },
+
       theClass() {
+        let inputClass = this.inputClass + ' form-control'
+
         if (this.size === 'sm') {
-          return 'form-control form-control-sm'
+          inputClass += ' form-control-sm'
         }
         else if (this.size === 'lg') {
-          return 'form-control form-control-lg'
+          inputClass += ' form-control-lg'
+        }
+
+        if (this.underlineOnFocus) {
+          inputClass += ' underline'
+        }
+        return inputClass
+      },
+
+      divStyle() {
+        if (this.size === 'sm') {
+          return "width: 130px;; margin-top: 12px"
+        }
+        else if (this.size === 'lg') {
+          return "margin-top: 8px"
         }
         else {
-          return 'form-control'
+          return "width: 145px; margin-top: 10px"
         }
       },
 
       theStyle() {
         let style = ''
         if (this.size === 'sm') {
-          style = style + 'width: 95px; margin-top: -4px;'
+          style = style + 'width: 115px; margin-top: -4px;'
         }
         else if (this.size === 'lg') {
-          style = style + 'width: 155px; padding-left: 10px; padding-right: 10px'
+          style = style + 'width: 150px; height: calc(1.5em + 0.3rem + 3px); margin-top: 2px; padding-left: 10px; padding-right: 10px;'
         }
         else {
           style = style + 'width: 115px;'
         }
 
-        if (this.borderStyle !== '') {
-          if ((this.borderStyle === 'inset') || (this.borderStyle === 'outset')) {
-            style = style + 'border: 2px ' + this.borderStyle
-          }
-          else if (this.borderStyle === 'shadow') {
-            style += 'box-shadow: 2px 2px grey'
-          }
-          else {
-            style = style + 'border: 1px ' + this.borderStyle
-          }
-        }
-        else {
-          style = style + 'border: none'
+        switch(this.borderStyle) {
+          case "inset":
+            style += 'border: 2px inset'
+            break
+          case "outset":
+            style += 'border: 2px outset'
+            break
+          case "shadow":
+            style += 'box-shadow: 2px 2px grey '
+            break
+          case "solid":
+            style += 'border: 1px solid'
+            break
+          case "none":
+            style += 'border: none'
+            break
         }
         return style
       },
@@ -796,7 +797,7 @@
     }
   }
 </script>
-<style scoped>
+<style>
   @import './index.scss';
 
   #app {
@@ -813,19 +814,12 @@
     margin-left: 6px;
     margin-bottom: -10px;
   }
-  input {
-    text-align: left;
-    background-color:white;
-    border-radius: 4px;
-    margin-left: 0px;
-    margin-top: -3px;
 
-  }
-  input:focus {
-    text-decoration: underline;
-  }
   input:disabled {
     background-color:#eff1f4;
+  }
+  .underline:focus {
+    text-decoration: underline;
   }
   .smallIcon {
     margin-left: 0px;

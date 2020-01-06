@@ -8,7 +8,7 @@
             <div class="container">
                 <div style="height: 500px; border: solid black 1px; background-color: #eff1f4; width: 100%">
                     <div class="row">
-                        <div class="col-1"></div>
+                        <div class="col-5"></div>
                         <div class="col-3">
                             <sim-number
                                     v-model="numberValue"
@@ -23,6 +23,8 @@
                                     :max="maxValue"
                                     :min="minValue"
                                     :minus="allowMinus"
+                                    :inputClass="inputClass"
+                                    :labelClass="labelClass"
                                     v-on:input="onInputHandler"
                             ></sim-number>
                         </div>
@@ -72,11 +74,11 @@
 
                             ></sim-select>
                         </div>
-                        <div class="col-2">
+                        <div class="col-2" style="margin-top: 20px">
                             <input type="checkbox"
-                                   id="alwaysShowLabel"
-                                   :checked="alwaysShowLabel" @click='alwaysShowLabel = !alwaysShowLabel' style="padding-left: 10px; cursor: pointer">
-                            <label for="alwaysShowLabel" style="margin-left: 3px">Always Show Label</label>
+                                   id="disabled"
+                                   :checked="disabled" @click='disabled = !disabled' style="padding-left: 10px; cursor: pointer">
+                            <label for="disabled" style="margin-left: 3px">Disabled</label>
                         </div>
                     </div>
                     <div class="row">
@@ -117,12 +119,31 @@
                                     width="100px"
                             ></sim-select>
                         </div>
-                        <div class="col-2" style="margin-top: 20px">
-                            <input type="checkbox"
-                                   id="disabled"
-                                   :checked="disabled" @click='disabled = !disabled' style="padding-left: 10px; cursor: pointer">
-                            <label for="disabled" style="margin-left: 3px">Disabled</label>
-                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="col-2">
+                        <sim-select
+                                v-model="inputClass"
+                                :value="inputClass"
+                                label="Input Class"
+                                :items="classList"
+                                :textCentered=true
+                                width="100px"
+                        ></sim-select>
+                    </div>
+                    <div class="col-2">
+                        <sim-select
+                                v-model="labelClass"
+                                :value="labelClass"
+                                label="Label Class"
+                                :items="classList"
+                                :textCentered=true
+                                width="100px"
+
+                        ></sim-select>
+                    </div>
                     </div>
                 </div>
 
@@ -166,6 +187,9 @@
         minValueList: string [] = ['-10','-20','-30','-50','-100','-1000','-10000']
         numberValue: number  = 293.44
         allowMinus: boolean = true
+        labelClass: string = ''
+        inputClass: string = ''
+        classList: string [] = ['', 'redText', 'greenText']
 
         /// Computed
         get precision () {
@@ -220,6 +244,11 @@
         float: left;
         width: 100%;
     }
-
+    .redText {
+        color: red
+    }
+    .greenText {
+        color: green
+    }
 </style>
 

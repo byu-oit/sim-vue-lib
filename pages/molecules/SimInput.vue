@@ -151,7 +151,6 @@
                 <label for="disabled" style="margin-left: 3px">Disabled</label>
             </div>
         </div>
-
         <div class="row">
             <div class="col-2"></div>
             <div class="col-2" style="margin-top: 20px">
@@ -162,6 +161,7 @@
             </div>
             <div class="col-2" style="margin-top: 20px">
                 <button class="btn-primary btn-ml" type="submit" @click="userMessage=''">Submit</button>
+
             </div>
 
 

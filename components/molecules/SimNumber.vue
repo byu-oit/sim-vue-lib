@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class = row h-25>
-            <label :style="labelStyle">{{ theLabel }}</label>
+            <label :class="labelClass" :style="labelStyle">{{ label }}</label>
         </div>
         <div class = row h-75>
             <input
@@ -116,6 +116,12 @@
         @Prop({ default: true, type: Boolean })
         alwaysShowLabel!: boolean
 
+        @Prop({ default: '', type: String })
+        inputClass!: string
+
+        @Prop({ default: '', type: String })
+        labelClass!: string
+
         /// Data
         amount: string = ''
         theLabel: string = this.label
@@ -198,16 +204,22 @@
                 style = style + 'required;'
             }
 
-            if (this.borderStyle !== '') {
-                if ((this.borderStyle === 'inset') || (this.borderStyle === 'outset')) {
-                    style = style + 'border: 2px ' + this.borderStyle
-                }
-                else {
-                    style = style + 'border: 1px ' + this.borderStyle
-                }
-            }
-            else {
-                style = style + 'border: none'
+            switch(this.borderStyle) {
+                case "inset":
+                    style += 'border: 2px inset'
+                    break
+                case "outset":
+                    style += 'border: 2px outset'
+                    break
+                case "shadow":
+                    style += 'box-shadow: 2px 2px grey '
+                    break
+                case "solid":
+                    style += 'border: 1px solid'
+                    break
+                case "none":
+                    style += 'border: none'
+                    break
             }
             return style
         }
@@ -254,15 +266,15 @@
         }
 
         get theClass() {
+            let inputClass: string = this.inputClass + ' form-control'
+
             if (this.size === 'sm') {
-                return 'form-control form-control-sm'
+                inputClass += ' form-control-sm'
             }
             else if (this.size === 'lg') {
-                return 'form-control form-control-lg'
+                inputClass += ' form-control-lg'
             }
-            else {
-                return 'form-control'
-            }
+            return inputClass
         }
 
         /// Watches

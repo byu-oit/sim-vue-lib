@@ -15,7 +15,7 @@
   "dependencies": {},
   "devDependencies": {
     "@nuxt/typescript-build": "^0.3.1",
-    "@nuxt/typescript-runtime": "^0.2.1",
+    "@nuxt/typescript-runtime": "^0.3.6",
     "@nuxtjs/eslint-config": "^2.0.0",
     "@nuxtjs/eslint-config-typescript": "^1.0.0",
     "@nuxtjs/vuetify": "^1.9.1",

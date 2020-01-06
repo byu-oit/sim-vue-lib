@@ -4,7 +4,6 @@
             <label :class="labelClass" :style="labelStyle">{{ label }}</label>
         </div>
         <div class = row h-75>
-
             <input
                     v-model="theValue"
                     :class="theClass"

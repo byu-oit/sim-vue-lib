@@ -19,6 +19,7 @@
                             :alwaysShowLabel="alwaysShowLabel"
                             :inputClass="inputClass"
                             :labelClass="labelClass"
+                            :underlineOnFocus="underlineOnFocus"
                             v-on:input="onInputHandler"
                             v-on:blur="onBlurHandler"
                             v-on:focus="onFocusHandler"
@@ -154,6 +155,12 @@
 
         <div class="row">
             <div class="col-2"></div>
+            <div class="col-3" style="margin-top: 20px">
+                <input type="checkbox"
+                       id="underLineOnFocus"
+                       :checked="underlineOnFocus" @click='underlineOnFocus = !underlineOnFocus' style="padding-left: 10px; cursor: pointer">
+                <label for="underLineOnFocus" style="margin-left: 3px">Underline on Focus</label>
+            </div>
             <div class="col-2" style="margin-top: 20px">
                 <input type="checkbox"
                        id="alwaysShowLabel"
@@ -163,9 +170,6 @@
             <div class="col-2" style="margin-top: 20px">
                 <button class="btn-primary btn-ml" type="submit" @click="userMessage=''">Submit</button>
             </div>
-
-
-
         </div>
         <hr>
         <div style="margin-left: 100px">
@@ -223,17 +227,9 @@
         inputClass: string = ''
         labelClass: string = ''
         classList: string [] = ['', 'redText', 'greenText']
-
-        carBrand: string = 'Cadillac'
-        carList: string [] = ['Acura', 'Audi', 'Buick','BMW', 'Cadillac', 'Chevrolet', 'Dodge', 'Ford', 'Honda','Hyundai','Toyota']
-
-
-        theLabel: string = 'Car Brands'
-        labelList: string [] = ['Car Brands', 'Favorite Brands', 'Best Brands', 'Worst Brands']
+        underLineOnFocus: boolean = true
         theSize: string = 'md'
         sizeList: string [] = ['sm', 'md', 'lg']
-        shadowBorder: boolean = false
-        textCentered: boolean = true
         lastSelectedMsg: string = ''
         eventMessage: string = ''
         keyPressMessage: string = ''

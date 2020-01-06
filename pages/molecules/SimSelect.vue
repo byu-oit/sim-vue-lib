@@ -1,5 +1,5 @@
 <template>
-    <div style="width: 100%">
+    <form style="width: 100%">
         <h1 class="text-primary" style="text-align: center">Sim Select Example</h1>
         <div style="display: flex; justify-content: space-around">
             <sim-select
@@ -13,7 +13,7 @@
                     :width="theWidth"
                     :size="theSize"
                     :disabled="disabled"
-                    :required=true
+                    :required="required"
                     :inputClass="inputClass"
                     :labelClass="labelClass"
                     v-on:input="onInputHandler"
@@ -73,42 +73,58 @@
 
         </div>
         <div class="row">
+        <div class="col-2"></div>
+        <div class="col-2">
+            <sim-select
+                    v-model="inputClass"
+                    :value="inputClass"
+                    label="Input Class"
+                    :items="classList"
+                    :textCentered=true
+                    width="100px"
+            ></sim-select>
+        </div>
+        <div class="col-2">
+            <sim-select
+                    v-model="labelClass"
+                    :value="labelClass"
+                    label="Label Class"
+                    :items="classList"
+                    :textCentered=true
+                    width="100px"
+            ></sim-select>
+        </div>
+        <div class="col-2" style="margin-top: 20px">
+            <input type="checkbox"
+                   id="disabled"
+                   :checked="disabled" @click='disabled = !disabled' style="padding-left: 10px; cursor: pointer">
+            <label for="disabled" style="margin-left: 3px">Disabled</label>
+        </div>
+        <div class="col-2" style="margin-top: 20px">
+            <input type="checkbox"
+                   id="textCentered"
+                   :checked="textCentered" @click='textCentered = !textCentered' style="padding-left: 10px; cursor: pointer">
+            <label for="textCentered" style="margin-left: 3px">Centered Text</label>
+        </div>
+    </div>
+        <div class="row">
             <div class="col-2"></div>
-            <div class="col-2">
-                <sim-select
-                        v-model="inputClass"
-                        :value="inputClass"
-                        label="Input Class"
-                        :items="classList"
-                        :textCentered=true
-                        width="100px"
-                ></sim-select>
-            </div>
-            <div class="col-2">
-                <sim-select
-                        v-model="labelClass"
-                        :value="labelClass"
-                        label="Label Class"
-                        :items="classList"
-                        :textCentered=true
-                        width="100px"
-                ></sim-select>
-            </div>
             <div class="col-2" style="margin-top: 20px">
                 <input type="checkbox"
-                       id="disabled"
-                       :checked="disabled" @click='disabled = !disabled' style="padding-left: 10px; cursor: pointer">
-                <label for="disabled" style="margin-left: 3px">Disabled</label>
+                       id="required"
+                       :checked="required" @click='required = !required' style="padding-left: 10px; cursor: pointer">
+                <label for="required" style="margin-left: 3px">Required</label>
             </div>
-            <div class="col-2" style="margin-top: 20px">
-                <input type="checkbox"
-                       id="textCentered"
-                       :checked="textCentered" @click='textCentered = !textCentered' style="padding-left: 10px; cursor: pointer">
-                <label for="textCentered" style="margin-left: 3px">Centered Text</label>
+            <div class="col-2">
+                <div class="col-2" style="margin-top: 20px">
+                    <button class="btn-primary btn-ml" type="submit" @click="userMessage=''">Submit</button>
+                </div>
             </div>
+
         </div>
         <hr>
-    </div>
+
+    </form>
 </template>
 
 <script lang="ts">
@@ -122,7 +138,7 @@
     })
     export default class App extends Vue {
         carBrand: string = 'Cadillac'
-        carList: string [] = ['Acura', 'Audi', 'Buick','BMW', 'Cadillac', 'Chevrolet', 'Dodge', 'Ford', 'Honda','Hyundai','Toyota']
+        carList: string [] = ['','Acura', 'Audi', 'Buick','BMW', 'Cadillac', 'Chevrolet', 'Dodge', 'Ford', 'Honda','Hyundai','Toyota']
 
         theWidth: string = '150px'
         widthList: string [] = ['50px','100px','150px','200px','250px']
@@ -138,6 +154,7 @@
         inputClass: string = ''
         labelClass: string = ''
         classList: string [] = ['', 'redText', 'greenText']
+        required: boolean = false
 
         onInputHandler(event) {
             this.lastSelectedMsg = event + ' was selected at ' + new Date()
@@ -175,3 +192,4 @@
         color: green
     }
 </style>
+

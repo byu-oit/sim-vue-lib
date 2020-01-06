@@ -16,7 +16,7 @@
                     @mouseleave="event => { $emit('mouseleave', event.target.value) }"
                     :disabled="disabled"
                     :readonly="disabled"
-
+                    :required="required"
             >
                 <option v-for="item in items" :key="item">{{ item }}</option>
             </select>
@@ -59,6 +59,9 @@
 
         @Prop({ default: '', type: String })
         labelClass!: string
+
+        @Prop({ default: false, type: Boolean })
+        required!: boolean
 
         get theStyle() {
             let style = '';

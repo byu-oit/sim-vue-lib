@@ -74,6 +74,9 @@
             @Prop({ default: '', type: String })
             labelClass!: string
 
+            @Prop({ default: false, type: Boolean })
+            underlineOnFocus!: boolean
+
             mounted() {
                 this.theValue = this.value
                 this.hasContent = this.theValue !== ""
@@ -135,6 +138,9 @@
                 }
                 else if (this.size === 'lg') {
                     inputClass += ' form-control-lg'
+                }
+                if (this.underlineOnFocus) {
+                    inputClass += ' underline'
                 }
                 return inputClass
             }
@@ -204,8 +210,7 @@
         text-align: left;
         border-radius: 4px;
     }
-    input:focus {
-
+    .underline:focus {
         text-decoration: underline;
     }
     input:disabled {

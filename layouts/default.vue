@@ -89,8 +89,8 @@ export default class DefaultView extends Vue {
           icon: 'mdi-test-tube'
         },
         {
-          title: 'Sim Input',
-          path: '/molecules/SimInput',
+          title: 'Sim Label',
+          path: '/molecules/SimLabel',
           icon: 'mdi-test-tube'
         },
         {

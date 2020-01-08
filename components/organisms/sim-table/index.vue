@@ -652,7 +652,6 @@
     watch: {
       dataChanged(newVal, oldVal) {
         this.update()
-
       },
       config() {
         this.update();
@@ -667,6 +666,7 @@
         this.setSize();
       }
     },
+
     computed: {
       headerFooterStyle() {
         if (this.fontSize !== '') {

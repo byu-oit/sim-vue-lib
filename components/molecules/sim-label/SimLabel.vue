@@ -4,132 +4,198 @@
             <svg transform="scale(1.5)" width="10" height="11" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z" fill="#fff"/></svg>
         </div>
         <div class="accessibility__icon" :style="accessibilityStyle" v-if="settings.line"></div>
-        <div class="slot-container" ref="input-container">
-            <slot
-                    v-model="value"
-                    @focus="focus"
-                    @blur="blur"
+        <div style="margin-bottom: -10px;"  class="slot-container" ref="input-container">
+            <input
+                    v-model="newValue"
+                    type="text"
                     class="input"
-                    ></slot>
+                    @input="event => { $emit('input', event.target.value) }"
+                    @blur="event => { $emit('blur', event.target.value) }"
+                    @focus="event => { $emit('focus', event.target.value) }"
+                    @mouseover="event => { $emit('mouseover', event.target.value) }"
+                    @mouseleave="event => { $emit('mouseleave', event.target.value) }"
+                    maxlength="40" size="20"
+                    >
         </div>
-        <label class="label__placeholder SIM-no-wrap" :for="labelName">{{ config.label }}</label>
-        <label class="label__active SIM-no-wrap" :class="activeLabelClasses" :style="activeLabelStyle" :for="labelName">{{ config.label }}</label>
+        <label v-if="newValue===''" class="label__placeholder SIM-no-wrap" :for="labelName">{{ config.label }}</label>
+        <label v-else class="entryLabel" :class="activeLabelClasses" :style="activeLabelStyle" :for="labelName">{{ config.label }}</label>
     </div>
 </template>
 
-<script>
-    export default {
-        name: 'sim-label',
-        props: {
-            config: {
-                required: true
-            }
+<script lang="ts">
+    import { Component, Vue, Prop, Watch } from 'nuxt-property-decorator'
+
+    interface Config {
+        hasClearButton: boolean,
+        name: string,
+        label: string
+
+    }
+
+    interface FormElements extends HTMLCollection {
+        value: HTMLInputElement;
+    }
+
+    interface Settings {
+        classes: {
+            error: string
         },
-        computed: {
-            activeLabelClasses() {
-                return {
-                    'label__active--canscale': this.settings.scale
-                }
-            },
-            hasClearButton() {
-                if (this.config.hasOwnProperty('hasClearButton')) {
-                    return this.config.hasClearButton;
-                }
-                return false;
-            },
-            containerClasses() {
-                const classes = {
-                    'has-line': this.settings.line,
-                    'input__container--focus': this.hasFocus,
-                    'input__container--content': this.hasContent
-                };
-                if (this.settings.hasError) {
-                    classes[this.settings.classes.error] = true;
-                }
-                return classes;
-            },
-            labelName() {
-                if (this.config.name !== undefined) {
-                    return this.config.name
-                }
-                if (this.config.label) {
-                    return this.config.label.toLowerCase();
-                }
-                return "LBL" + Math.random()
-            },
-            accessibilityStyle() {
-                let color = this.settings.color.lineColor;
-                if (this.settings.hasError) {
-                    color = this.settings.color.errorColor;
-                }
-                return {
-                    'background-color': color
-                }
-            },
-            labelColor() {
-                if (!this.settings.hasError) {
-                    return this.hasFocus ? this.settings.color.focusColor : this.settings.color.blurredColor
-                } else {
-                    return this.settings.color.errorColor;
-                }
-            },
-            activeLabelStyle() {
-                return {
-                    top: this.settings.labelOffset.top + 'px',
-                    left: this.settings.labelOffset.left + 'px',
-                    color: this.labelColor
-                }
-            },
-            inputContainerStyle() {
-                return {
-                    height: this.settings.height + 'px'
-                }
-            },
-            settings() {
-                return Object.assign({}, this.defaultSettings, this.config);
-            }
+        hasError: boolean,
+        height: number,
+        hasClearButton: boolean,
+        clearOnInput: boolean,
+        line: boolean,
+        scale: boolean,
+        labelOffset: {
+            top: number,
+            left: number
         },
-        methods: {
-            clear() {
-                this.formElement.value = '';
-                this.hasContent = false;
-                this.hasFocus = false;
-                this.$emit('clear');
+        color: {
+            focusColor: string,
+            lineColor: string,
+            errorColor: string,
+            blurredColor: string
+        }
+    }
+
+    @Component
+    export default class SimLabel extends Vue {
+
+        @Prop({ default: {}, type: Object })
+        config!: Config
+
+        @Prop({ default: '', type: String })
+        value!: string
+
+        defaultSettings: Settings = {
+            classes: {
+                error: 'has-error'
             },
-            focus(event) {
-                this.hasFocus = true;
-                if ((this.settings.clearOnInput) && (this.formElement.type !== 'select-one'))
-                {
-                    this.formElement.select()
-                }
-                this.$emit('focus');
+            hasError: false,
+            height: 50,
+            hasClearButton: true,
+            clearOnInput: true,
+            line: true,
+            scale: true,
+            labelOffset: {
+                top: 0,
+                left: 8
             },
-            input(event) {
-                this.hasFocus = true;
-                this.hasContent = event.target.value !== '';
-                this.$emit('input');
-            },
-            blur(event) {
-                this.hasFocus = false;
-                this.$emit('blur');
+            color: {
+                focusColor: '#5D7998',
+                lineColor: '#5D7998',
+                errorColor: '#ff0000',
+                blurredColor: 'rgba(3, 23, 40, 0.34)'
             }
-        },
+        }
+
+        newValue: string = this.value
+        hasFocus: boolean = false
+        hasContent: boolean = false
+
+
+        get activeLabelClasses() {
+            return {
+                'label__active--canscale': this.settings.scale
+            }
+        }
+
+        get containerClasses() {
+            const classes = {
+                'has-line': this.settings.line,
+                'input__container--focus': this.hasFocus,
+                'input__container--content': this.hasContent
+            };
+            if (this.settings.hasError) {
+                classes[this.settings.classes.error] = true;
+            }
+            return classes;
+        }
+
+        get labelName() {
+            if (this.config.name !== undefined) {
+                return this.config.name
+            }
+            if (this.config.label) {
+                return this.config.label.toLowerCase();
+            }
+            return "LBL" + Math.random()
+        }
+
+        get accessibilityStyle() {
+            let color = this.settings.color.lineColor;
+            if (this.settings.hasError) {
+                color = this.settings.color.errorColor;
+            }
+            return {
+                'background-color': color
+            }
+        }
+
+        get labelColor() {
+            if (!this.settings.hasError) {
+                return this.hasFocus ? this.settings.color.focusColor : this.settings.color.blurredColor
+            } else {
+                return this.settings.color.errorColor;
+            }
+        }
+
+        get activeLabelStyle() {
+            return {
+                top: this.settings.labelOffset.top + 'px',
+                left: this.settings.labelOffset.left + 'px',
+                color: this.labelColor
+            }
+        }
+
+        get inputContainerStyle() {
+            return {
+                height: this.settings.height + 'px'
+            }
+        }
+
+        get settings() {
+            return Object.assign({}, this.defaultSettings, this.config);
+        }
+
+        clear() {
+            this.hasContent = false;
+            this.hasFocus = false;
+            this.$emit('clear');
+        }
+
+        focus(event) {
+            this.hasFocus = true;
+            this.$emit('focus');
+        }
+
+        input(event) {
+            this.hasFocus = true;
+            this.hasContent = event.target.value !== '';
+            this.$emit('input');
+        }
+
+        blur(event) {
+            this.hasFocus = false;
+            this.$emit('blur');
+        }
+
         mounted() {
-            this.formElement = this.$refs['input-container'].querySelector('input, select');
-            if (this.formElement) {
-                this.formElement.addEventListener('input', this.input);
-                this.formElement.addEventListener('blur', this.blur);
-                this.formElement.addEventListener('focus', this.focus);
-                if (this.formElement.type === 'select-one') {
+            const formElement = this.$refs.querySelector as HTMLInputElement
+            if (formElement) {
+                formElement.addEventListener('input', this.input);
+                formElement.addEventListener('blur', this.blur);
+                formElement.addEventListener('focus', this.focus);
+                if (formElement.type === 'select-one') {
                     this.hasContent = true;
                     this.settings.scale = false;
-                    this.settings.hasClearButton = hasClearButton();
-                    this.hasfocus = true;
+                    this.settings.hasClearButton = this.config.hasClearButton;
+                    this.hasFocus = true;
                 }
                 else
                 {
 
-                    this.hasContent = this.formElement.value !== ""
+                    this.hasContent = formElement.value !== ""
                 }
                 /*
                 console.log('this.config.disabled = ', this.config.disabled)
@@ -139,39 +205,12 @@
 
                  */
             }
-        },
-        data () {
-            return {
-                defaultSettings: {
-                    classes: {
-                        error: 'has-error'
-                    },
-                    hasError: false,
-                    height: 50,
-                    hasClearButton: true,
-                    clearOnInput: true,
-                    line: true,
-                    scale: true,
-                    labelOffset: {
-                        top: 5,
-                        left: 8
-                    },
-                    color: {
-                        focusColor: '#5D7998',
-                        lineColor: '#5D7998',
-                        errorColor: '#ff0000',
-                        blurredColor: 'rgba(3, 23, 40, 0.34)'
-                    }
-                },
-                hasFocus: false,
-                hasContent: false
-            }
         }
     }
 </script>
 
 <style scoped lang="styl">
-    @import './style/_variables';
+    @import './style/_variables.styl';
     .input__container {
         position: relative;
         padding: 0 8px;
@@ -337,5 +376,12 @@
          top: auto;
          opacity: 0;
      }
+    }
+    .entryLabel {
+        font-family: "HCo Ringside Narrow SSm", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        color: #5D7998;
+        font-size: 10pt;
+        font-weight: 600;
+        line-height: 1.5;
     }
 </style>

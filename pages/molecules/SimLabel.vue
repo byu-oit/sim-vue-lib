@@ -4,8 +4,15 @@
         <div style="display: flex; justify-content: space-around">
             <sim-label
                     class="col-5"
-                    :config="{label: theLabel, hasClearButton: hasClearButton, disabled: disabled, line: hasLine}">
-                <input type="text" :maxlength="maxLength" size="20" v-model="simLabelInput" :required="required" :disabled="disabled">
+                    v-model="simLabelInput"
+                    :value="simLabelInput"
+                    :config="{label: theLabel, hasClearButton: hasClearButton, disabled: disabled, line: hasLine}"
+                    v-on:input="onInputHandler"
+                    v-on:blur="onBlurHandler"
+                    v-on:focus="onFocusHandler"
+                    v-on:mouseover="mouseOverHandler($event)"
+                    v-on:mouseleave="mouseLeaveHandler($event)"
+            >
             </sim-label>
         </div>
         <div style="display: flex; justify-content: space-around; margin-top: 20px">
@@ -144,7 +151,7 @@
         required: boolean = false
 
         onInputHandler(event) {
-            this.lastSelectedMsg = event + ' was selected at ' + new Date()
+            this.lastSelectedMsg = event + ': was entered at ' + new Date()
         }
 
         onBlurHandler() {

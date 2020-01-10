@@ -7,6 +7,7 @@
                     v-model="simLabelInput"
                     :value="simLabelInput"
                     :config="{label: theLabel, hasClearButton: hasClearButton, disabled: disabled, line: hasLine}"
+                    :required="required"
                     v-on:input="onInputHandler"
                     v-on:blur="onBlurHandler"
                     v-on:focus="onFocusHandler"

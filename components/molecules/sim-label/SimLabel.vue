@@ -9,6 +9,8 @@
                     v-model="newValue"
                     type="text"
                     class="input"
+                    :disabled="config.disabled"
+                    :required="required"
                     @input="event => { $emit('input', event.target.value) }"
                     @blur="event => { $emit('blur', event.target.value) }"
                     @focus="event => { $emit('focus', event.target.value) }"
@@ -66,6 +68,9 @@
 
         @Prop({ default: '', type: String })
         value!: string
+
+        @Prop({ default: false, type: Boolean })
+        required!: boolean
 
         defaultSettings: Settings = {
             classes: {

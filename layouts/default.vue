@@ -89,6 +89,11 @@ export default class DefaultView extends Vue {
           icon: 'mdi-test-tube'
         },
         {
+          title: 'Sim Input',
+          path: '/molecules/SimInput',
+          icon: 'mdi-test-tube'
+        },
+        {
           title: 'Sim Label',
           path: '/molecules/SimLabel',
           icon: 'mdi-test-tube'
@@ -96,6 +101,11 @@ export default class DefaultView extends Vue {
         {
           title: 'Sim Text',
           path: '/molecules/SimText',
+          icon: 'mdi-test-tube'
+        },
+        {
+          title: 'Sim Table',
+          path: '/organisms/SimTable',
           icon: 'mdi-test-tube'
         }
       ]

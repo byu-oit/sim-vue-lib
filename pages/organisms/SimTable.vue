@@ -1,7 +1,7 @@
 <template>
 
     <div id="app">
-        <div style="height: 150px; padding-top: 50px">
+        <div style="height: 100px; padding-top: 50px">
             <h1>Sim Table Example</h1>
         </div>
 
@@ -31,7 +31,7 @@
                         <button class="btn-primary btn-sm" size="mini" @click="del(scope.index, scope.row)">Delete</button>
                     </template>
                 </sim-table>
-                <div style="margin-top: 10px; color: green; font-size: 18px">{{ selectedMessage}}</div>
+                <div style="height: 50px; margin-top: 10px; color: green; font-size: 18px">{{ selectedMessage}}</div>
                 <div class="row">
                     <div class="col-1"></div>
                     <div class="col-2">
@@ -81,14 +81,14 @@
 
                 </div>
                 <div class="row">
-                    <div class="col-1"></div>
-                    <div class="col-3" style="margin-top: 20px">
+                    <div class="col-2"></div>
+                    <div class="col-2" style="margin-top: 20px">
                         <input type="checkbox"
                                id="selectable"
                                :checked="selectable" @click='selectableChanged' style="padding-left: 10px; cursor: pointer">
                         <label for="selectable" style="margin-left: 3px">Selectable</label>
                     </div>
-                    <div class="col-3" style="margin-top: 20px">
+                    <div class="col-2" style="margin-top: 20px">
                         <input type="checkbox"
                                id="multiSelect"
                                :checked="multiSelect" @click='multiSelectChanged' style="padding-left: 10px; cursor: pointer">
@@ -100,7 +100,10 @@
                                :checked="highlightOnHover" @click='hoverHighlightChanged' style="padding-left: 10px; cursor: pointer">
                         <label for="hoverHighlight" style="margin-left: 3px">Hightlight on Hover</label>
                     </div>
-                    <div class="col-3" style="margin-top: 20px">
+                </div>
+                <div class="row">
+                    <div class="col-1"></div>
+                    <div class="col-2" style="margin-top: 20px">
                         <input type="checkbox"
                                id="exportEnabled"
                                :checked="exportEnabled" @click='enableExportChanged' style="padding-left: 10px; cursor: pointer">
@@ -112,18 +115,12 @@
                                :checked="lineNumShown" @click='changeShowLineNumber' style="padding-left: 10px; cursor: pointer">
                         <label for="textCentered" style="margin-left: 3px">{{ lineNumLabel }}</label>
                     </div>
-
-                </div>
-                <div class="row">
-                    <div class="col-1"></div>
-
                     <div class="col-2" style="margin-top: 16px">
                         <a class='btn-link' style="color: blue" href="https://www.npmjs.com/package/vue-virtual-table">  Documentation  </a>
                     </div>
                 </div>
                 <hr>
             </div>
-
         </div>
     </div>
 
@@ -147,8 +144,8 @@
                 heightList: ['30','40','55', '65','80','100'],
                 defaultRows: 'None',
                 defaultList: ['None','Row 6','Rows 2, 4, 6, and 8','Rows 3,7,9 and 11',],
-                tableHeight: '750',
-                tableHeightList: ['400','500','600', '750','850','1000'],
+                tableHeight: '650',
+                tableHeightList: ['450','550','650','800','1000','1200'],
                 lineNumLabel: 'Hide Line Number Column',
                 lineNumShown: true,
                 exportEnabled: false,
@@ -214,7 +211,7 @@
                     { user: "a3", age: 23, ageDays: 0, city: "a" }
                 ],
                 tableAttribute: {
-                    height: 750,
+                    height: 660,
                     itemHeight: 55,
                     minWidth: 1000,
                     selectable: true,

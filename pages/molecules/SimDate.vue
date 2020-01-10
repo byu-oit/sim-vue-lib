@@ -20,7 +20,7 @@
                                 :alwaysShowLabel="alwaysShowLabel"
                                 :inputClass="inputClass"
                                 :labelClass="labelClass"
-                                :format="theFormat"
+                                format="DD MMM YYYY"
                                 :underlineOnFocus="underlineOnFocus"
                                 v-on:input="onInputHandler"
                                 v-on:blur="onBlurHandler"
@@ -172,7 +172,7 @@
 </template>
 
 <script>
-    import SimDate from '~/components/molecules/sim-date/index.vue'
+    import SimDate from '~/components/molecules/sim-date/SimDate.vue'
     import SimSelect from '~/components/molecules/SimSelect.vue'
 
 
@@ -201,7 +201,6 @@
                 eventMessage: '',
                 keyPressMessage: '',
 
-
                 blankDate: '',
                 newValue: '',
                 testValue: 'This is a test',
@@ -229,6 +228,12 @@
 
                 testValue2: 'Data Here'
             };
+        },
+
+        computed: {
+            format() {
+                return this.theFormat
+            }
         },
 
         methods: {

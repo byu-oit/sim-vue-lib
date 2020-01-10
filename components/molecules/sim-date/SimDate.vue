@@ -57,7 +57,7 @@
               type="button"
               class="mx-shortcuts"
               v-for="(range, index) in innerShortcuts"
-              :key="SimDatePIcker"
+              :key="SimDate"
               @click="selectRange(range)">{{range.text}}</button>
           </div>
         </slot>
@@ -97,7 +97,7 @@
             :date-format="innerDateFormat"
             :value="currentValue[1]"
             :start-at="currentValue[0]"
-            :end-at="null" | npm
+            :end-at="null"npm
             :visible="popupVisible"
             @select-date="selectEndDate"
             @select-time="selectEndTime"></calendar-panel>
@@ -384,7 +384,6 @@
       },
 
       innerDateFormat () {
-        console.log('here')
         if (this.dateFormat) {
           return this.dateFormat
         }

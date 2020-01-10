@@ -109,6 +109,11 @@ export default class DefaultView extends Vue {
           icon: 'mdi-test-tube'
         },
         {
+          title: 'Sim Progress Bar',
+          path: '/molecules/SimProgressBar',
+          icon: 'mdi-test-tube'
+        },
+        {
           title: 'Sim Table',
           path: '/organisms/SimTable',
           icon: 'mdi-test-tube'

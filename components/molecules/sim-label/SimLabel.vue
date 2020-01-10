@@ -202,13 +202,6 @@
 
                     this.hasContent = formElement.value !== ""
                 }
-                /*
-                console.log('this.config.disabled = ', this.config.disabled)
-                if (this.config.disabled) {
-                    this.formElement.disabled = true
-                }
-
-                 */
             }
         }
     }

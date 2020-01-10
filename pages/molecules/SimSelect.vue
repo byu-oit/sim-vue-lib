@@ -1,35 +1,18 @@
 <template>
     <form style="width: 100%">
-        <h1 class="text-primary" style="text-align: center">Sim Select Example</h1>
-        <div style="display: flex; justify-content: space-around">
-            <sim-select
-                    v-model="carBrand"
-                    :value="carBrand"
-                    :label="theLabel"
-                    placeholder="Place Holder"
-                    :shadowBorder="shadowBorder"
-                    :items="carList"
-                    :textCentered="textCentered"
-                    :width="theWidth"
-                    :size="theSize"
-                    :disabled="disabled"
-                    :required="required"
-                    :inputClass="inputClass"
-                    :labelClass="labelClass"
-                    v-on:input="onInputHandler"
-                    v-on:blur="onBlurHandler"
-                    v-on:focus="onFocusHandler"
-                    v-on:mouseover="mouseOverHandler($event)"
-                    v-on:mouseleave="mouseLeaveHandler($event)"
+        <my-map-header></my-map-header>
+        <faculty-thumbprint :identity="facultyIdentity" :bordered=false style="margin-left: 100px; margin-top: 15px"></faculty-thumbprint>
 
-            ></sim-select>
-        </div>
+
         <div style="display: flex; justify-content: space-around; margin-top: 20px">
             {{ lastSelectedMsg }}
         </div>
         <div style="display: flex; justify-content: space-around; margin-top: 20px">
             {{ eventMessage }}
         </div>
+        <hr>
+
+
         <hr>
         <div class="row">
             <div class="col-2"></div>
@@ -130,13 +113,28 @@
 <script lang="ts">
     import { Component, Vue } from 'nuxt-property-decorator'
     import SimSelect from '~/components/molecules/SimSelect.vue'
+    import FacultyThumbprint from '~/components/molecules/FacultyThumbprint.vue'
+    import MyMapHeader from '~/components/organisms/MyMapHeader.vue'
+
+    interface FacultyInterface {
+        "sort_name": string,
+        "net_id": string,
+        "gender": string,
+        "empStatus": string,
+        "department": string
+    }
 
     @Component({
         components: {
-            SimSelect
+            SimSelect,
+            FacultyThumbprint,
+            MyMapHeader
         }
     })
     export default class App extends Vue {
+        facultyIdentity: object = {}
+        lastName: string = ''
+
         carBrand: string = 'Cadillac'
         carList: string [] = ['','Acura', 'Audi', 'Buick','BMW', 'Cadillac', 'Chevrolet', 'Dodge', 'Ford', 'Honda','Hyundai','Toyota']
 
@@ -155,6 +153,10 @@
         labelClass: string = ''
         classList: string [] = ['', 'redText', 'greenText']
         required: boolean = false
+
+        mounted() {
+            this.facultyIdentity = {"sort_name": "Bradley, Adam R","net_id": "abrad84","gender": "M","empStatus": "FAC/FT/ACT","department": "Mechanical Engineering"}
+        }
 
         onInputHandler(event) {
             this.lastSelectedMsg = event + ' was selected at ' + new Date()

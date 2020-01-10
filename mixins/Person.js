@@ -108,13 +108,57 @@ export default {
         {
             return (identity.merge_pending && (identity.merge_pending === true) || (identity.merge_pending === "Y"));
         },
-        _displayName: function (identity) {
-            const firstName = identity.preferred_first_name || identity.rest_of_name
-            if (identity.surname_position === 'L') {
-                return firstName + ' ' + identity.surname
+        _mailToHREF(identity)
+        {
+            return "mailto:"+ identity.email
+        },
+        _resolveId(id, key) {
+            const searchEngine = (key === "person_id") ? "PersonId" : "Name"
+            const request = {
+                method: "GET",
+                url: `https://api.byu.edu/domains/legacy/identity/person/directorylookup2.1/v1/All/${searchEngine}/1/${id}/`
             }
-
-            return identity.surname + ' ' + firstName
+            return new Promise((resolve, reject) => {
+                this.$byu.auth.request(request, (body, status) => {
+                    let identity = null
+                    if (status === 200) {
+                        body = JSON.parse(body)
+                        this.resultCount = body.PersonLookupService.response.total_result_size
+                        if (this.resultCount > 0)
+                        {
+                            for (const testIdentity of body.PersonLookupService.response.information)
+                            {
+                                testIdentity.byu_id = this._byuId_compress(testIdentity.byu_id)
+                                if (testIdentity[key] === id)
+                                {
+                                    identity = testIdentity
+                                    break
+                                }
+                            }
+                        }
+                    }
+                    if (identity) {
+                        identity.personId = identity.person_id
+                        identity.netId = identity.net_id
+                        identity.byu_id = this._byuId_compress(identity.byu_id)
+                        identity.byuId = identity.byu_id
+                        if (process.client) {
+                            if (byu.brownie) {
+                                //byu.brownie.set('__effectiveId', identity.personId);
+                                byu.brownie.__effectiveId = identity.personId
+                            }
+                        }
+                    }
+                    console.log("resolve", identity)
+                    resolve(identity)
+                })
+            })
+        },
+        _resolvePersonId(personId) {
+            return this._resolveId(personId, 'person_id')
+        },
+        _resolveByuId(byuId) {
+            return this._resolveId(byuId, 'byu_id')
         }
     }
 }

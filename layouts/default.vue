@@ -99,6 +99,11 @@ export default class DefaultView extends Vue {
           icon: 'mdi-test-tube'
         },
         {
+          title: 'Sim Number',
+          path: '/molecules/SimNumber',
+          icon: 'mdi-test-tube'
+        },
+        {
           title: 'Sim Label',
           path: '/molecules/SimLabel',
           icon: 'mdi-test-tube'

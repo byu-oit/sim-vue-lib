@@ -17,7 +17,6 @@
                             :required="required"
                             :position="thePosition"
                             :alwaysShowLabel="alwaysShowLabel"
-                            :underlineOnFocus="underlineOnFocus"
                             :inputClass="inputClass"
                             :labelClass="labelClass"
                             v-on:input="onInputHandler"
@@ -155,14 +154,6 @@
 
         <div class="row">
             <div class="col-2"></div>
-            <div class="col-3" style="margin-top: 20px">
-
-                <input type="checkbox"
-                   id="scott"
-                   :checked="underlineOnFocus" @click='underlineOnFocus = !underlineOnFocus' style="padding-left: 10px; cursor: pointer">
-                    <label for="scott" style="margin-left: 3px">Underline on Focus</label>
-
-            </div>
             <div class="col-2" style="margin-top: 20px">
                 <input type="checkbox"
                        id="alwaysShowLabel"
@@ -217,7 +208,6 @@
         testValue2: string = ''
         testValue3: string = ''
         alwaysShowLabel: boolean = true
-        underlineOnFocus: boolean = true
         borderStyle: string = 'inset'
         borderList: string [] = ['none', 'inset', 'outset','shadow', 'solid']
         disabled: boolean = false

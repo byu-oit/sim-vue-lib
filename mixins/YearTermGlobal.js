@@ -7,9 +7,14 @@ export default {
             type:String,
             default: function () {
                 const today = new Date()
-                const year = today.getFullYear()
-                const terms = [1,1,1,1,3,3,4,4,5,5,5,5]
-                return year + "" + terms[today.getMonth()]
+                let year = today.getFullYear()
+                const month = today.getMonth()
+                if (month > 9)
+                {
+                    year += 1
+                }
+                const terms = [1,1,5,5,5,5,5,5,5,5,1,1]
+                return year + "" + terms[month]
             }(),
             required:false
         },
@@ -49,7 +54,7 @@ export default {
         }
     },
     watch: {
-        yearTerm_globalDisplay: function(val, oldVal) {
+        yearTerm_globalDisplay (val, oldVal) {
             if (val.length >= 5)
             {
                 if (this._yearTerm_valid(val))
@@ -66,16 +71,14 @@ export default {
         //manage the global value
         _yearTerm_emitIfGlobalValueChanged(val)
         {
+            console.log('start')
             if (val !== this.yearTerm_globalValue)
             {
                 const oldVal = this.yearTerm_globalValue
                 this.yearTerm_globalValue = val
                 this.yearTerm_globalDisplay = this._yearTerm_format(val)
                 this.$emit("yearTerm-globalValueUpdated", {val: val, oldVal: oldVal})
-                if (this.yearTerm_dropdownIsShowing)
-                {
-                    this._yearTerm_selectionList(val, this.yearTerm_privateLastnNext,  this.yearTerm_privateLastnPrev,  this.yearTerm_privateLastbyTerms)
-                }
+                this._yearTerm_selectionList(val, this.yearTerm_privateLastnNext,  this.yearTerm_privateLastnPrev,  this.yearTerm_privateLastbyTerms)
             }
         },
         _yearTerm_nextGlobalValue() {

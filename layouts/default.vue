@@ -122,6 +122,11 @@ export default class DefaultView extends Vue {
           title: 'Sim Table',
           path: '/organisms/SimTable',
           icon: 'mdi-test-tube'
+        },
+        {
+          title: 'Sim Year Term',
+          path: '/molecules/SimYearTerm',
+          icon: 'mdi-test-tube'
         }
       ]
     },

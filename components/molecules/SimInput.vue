@@ -74,9 +74,6 @@
             @Prop({ default: '', type: String })
             labelClass!: string
 
-            @Prop({ default: false, type: Boolean })
-            underlineOnFocus!: boolean
-
             mounted() {
                 this.theValue = this.value
                 this.hasContent = this.theValue !== ""
@@ -88,7 +85,7 @@
             }
 
             get theStyle() {
-                let style = 'text-decoration: underline;'
+                let style = ''
                 if (this.width !== '') {
                     style += 'width:' + this.width + ';'
                 }
@@ -138,9 +135,6 @@
                 }
                 else if (this.size === 'lg') {
                     inputClass += ' form-control-lg'
-                }
-                if (this.underlineOnFocus) {
-                    inputClass += ' scott'
                 }
                 return inputClass
             }
@@ -209,8 +203,9 @@
         background-color:white;
         text-align: left;
         border-radius: 4px;
+        text-decoration: dashed;
     }
-    .scott:focus {
+    input:focus {
         text-decoration: underline;
     }
     input:disabled {

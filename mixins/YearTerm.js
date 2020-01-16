@@ -127,13 +127,15 @@ export default {
         _yearTerm_compress(val) {
             return this._yearTerm_year(val) + this._yearTerm_term(val)
         },
-        _yearTerm_termDescription(val, creditType) {
-            if (!val)
+        _yearTerm_termDescription(val, creditType, defaultDescription) {
+            if (defaultDescription)
             {
-                return " "
+                return "Transfer/exam credits"
             }
             switch (parseInt(this._yearTerm_term(val), 10))
             {
+                case 0:
+                    return "Transfer/exam credits";
                 case 1:
                     switch (creditType)
                     {
@@ -146,6 +148,11 @@ export default {
                 case 2:
                     return "Winter 2nd Block";
                 case 3:
+                    switch (creditType)
+                    {
+                        case 'S':
+                            return "Spring & Summer Terms"
+                    }
                     return "Spring Term";
                 case 4:
                     return "Summer Term";
@@ -166,6 +173,7 @@ export default {
         },
         _yearTerm_selectionList(from, nNext, nPrev, byTerms)
         {
+            console.log('YearTerm.js')
             const self = this
 
             function selectionElement(yearTerm, isCurrentSelection)
@@ -205,16 +213,22 @@ export default {
             return this.yearTerm_selections
         },
         _yearTerm_description(val, creditType) {
-            if (!val)
-            {
-                return " "
+            let defaultDescription = false;
+            let term = '';
+            if ((!val) || (val === '00000')) {
+                defaultDescription = true;
             }
-            const term = this._yearTerm_term(val)
-            const termDesc = this._yearTerm_termDescription(term, creditType)
+            else {
+                term = this._yearTerm_term(val)
+            }
+            const termDesc = this._yearTerm_termDescription(term, creditType, defaultDescription);
 
-            if (term === termDesc)
-            {
-                return val
+            // if (term === termDesc)
+            // {
+            //     return val
+            // }
+            if (defaultDescription) {
+                return termDesc
             }
             return termDesc + " " + this._yearTerm_year(val);
         },

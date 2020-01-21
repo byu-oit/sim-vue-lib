@@ -94,10 +94,12 @@
             }
         }
 
-        newValue: string = this.value
         hasFocus: boolean = false
         hasContent: boolean = false
 
+        get newValue() {
+            return this.value
+        }
 
         get activeLabelClasses() {
             return {

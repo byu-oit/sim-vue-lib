@@ -71,7 +71,6 @@ export default {
         //manage the global value
         _yearTerm_emitIfGlobalValueChanged(val)
         {
-            console.log('start')
             if (val !== this.yearTerm_globalValue)
             {
                 const oldVal = this.yearTerm_globalValue
@@ -92,6 +91,7 @@ export default {
         },
         //selection drop down methods
         _yearTerm_toggleSelectionDropdown(from, nNext, nPrev, byTerms) {
+            console.log('here')
             const dropdown = this.yearTerm_dropdown || document.getElementById("yearTerm_selectionDropdown")
             if (dropdown)
             {
@@ -105,10 +105,12 @@ export default {
                 }
             }
         },
+
         _yearTerm_selectableClass(isCurrentSelection) {
             return isCurrentSelection ? "SIM-selectable SIM-currentSelection" : "SIM-selectable"
         },
         _yearTerm_selected(selectable) {
+            console.log('selectable = ', selectable)
             this._yearTerm_emitIfGlobalValueChanged(selectable.value)
             this._yearTerm_toggleSelectionDropdown()
         }

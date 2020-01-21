@@ -4,7 +4,7 @@
             <div style="margin-top: 12px">
                 Semester:
             </div>
-            <div class="iconClass"@click="_yearTerm_prevGlobalValue">
+            <div class="iconClass" @click="_yearTerm_prevGlobalValue">
                 <i class="fas fa-arrow-left"></i>
             </div>
             <div>
@@ -22,8 +22,8 @@
                 </sim-label>
             </div>
             <div class="iconClass" @click="_yearTerm_toggleSelectionDropdown(undefined, undefined, undefined, false)">
-                <i class="fas fa-caret-down" v-if="!yearTerm_dropdownIsShowing"></i>
-                <i class="fas fa-caret-down" v-if="yearTerm_dropdownIsShowing"></i>
+                <i class="fas fa-caret-down" v-if="!yearTermDropdownIsShowing"></i>
+                <i class="fas fa-caret-down" v-if="yearTermDropdownIsShowing"></i>
             </div>
             <div class="iconClass" @click="_yearTerm_nextGlobalValue">
                 <i class="fas fa-arrow-right"></i>
@@ -33,7 +33,7 @@
             </div>
 
         </div>
-        <div v-if="yearTerm_dropdownIsShowing" id="yearTerm_selectionDropdown">
+        <div id="yearTerm_selectionDropdown">
             <div v-for="(item, index) in yearTerm_selections" :class="_yearTerm_selectableClass(item.isCurrentSelection)" @click="_yearTerm_selected(item)">
                 {{item.format}} {{item.description}}
             </div>
@@ -41,69 +41,93 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { Component, Vue } from 'nuxt-property-decorator'
-    import YearTermGlobal from './../../mixins/YearTermGlobal'
+<script>
+    import YearTermGlobal from '~/mixins/YearTermGlobal'
     import SimLabel from '~/components/molecules/sim-label/SimLabel.vue'
-
-
-    @Component({
+    import '~/assets/selections.css'
+    export default {
+        name: 'SimYearTerm',
+        mixins: [YearTermGlobal],
         components: {
             SimLabel
         },
-        mixins: [YearTermGlobal],
-    })
-    export default class App extends Vue {
-        simLabelInput: string = ''
-        hasClearButton: boolean = true
-        hasLine: boolean = true
-        yearTerm_dropdownIsShowing: boolean = false
 
-        theWidth: string = '150px'
-        widthList: string [] = ['50px','100px','150px','200px','250px']
-        theLabel: string = 'Car Brand'
-        labelList: string [] = ['Car Brand', 'Favorite Brand', 'Best Brand', 'Worst Brand']
-        maxLength: string = '80'
-        lengthList: string [] = ['10', '40', '80', '100', '150', '300']
+        props: {
+            /* value is the v-model value */
+             simLabelInput: {
+                type: String,
+                required: true
+            },
+            from: {
+                type: String,
+                required: true
+            },
+            nNext: {
+                type: Number,
+                default: 0
+            },
+            nPrev: {
+                type: Number,
+                default: 0
+            },
+            byTerms: {
+                type: Boolean,
+                required: false
+            },
+        },
 
-        textCentered: boolean = true
-        disabled: boolean = false
-        lastSelectedMsg: string = ''
-        eventMessage: string = ''
-        inputClass: string = ''
-        labelClass: string = ''
-        classList: string [] = ['', 'redText', 'greenText']
-        required: boolean = false
+        data() {
+            return {
+                theLabel: 'Year Term',
+                hasClearButton: true,
+                disabled: false,
+                hasLine: true,
+                required: false,
+                yearTermDropdownIsShowing: false,
 
-        onInputHandler(event) {
-            this.lastSelectedMsg = event + ': was entered at ' + new Date()
-        }
-
-        onBlurHandler() {
-            this.eventMessage = 'The SimSelect component NOT focused.'
-        }
-
-        onFocusHandler() {
-            this.eventMessage = 'The SimSelect component is now focused.'
-        }
-
-        mouseOverHandler(event) {
-            if (event > ' ') {
-                this.eventMessage = 'The current value of the SimSelect Component is: ' + event + '.'
             }
-            else {
-                this.eventMessage = 'The current value of the SimSelect Component is blank.'
+        },
+
+        mounted() {
+            /// this._yearTerm_toggleSelectionDropdown('', this.nNext, this.nPrev, this.byTerms)
+        },
+
+        methods: {
+            onInputHandler(event) {
+                this.lastSelectedMsg = event + ': was entered at ' + new Date()
+            },
+
+            onBlurHandler() {
+                this.eventMessage = 'The SimSelect component NOT focused.'
+            },
+
+            onFocusHandler() {
+                this.eventMessage = 'The SimSelect component is now focused.'
+            },
+
+            mouseOverHandler(event) {
+                if (event > ' ') {
+                    this.eventMessage = 'The current value of the SimSelect Component is: ' + event + '.'
+                } else {
+                    this.eventMessage = 'The current value of the SimSelect Component is blank.'
+                }
+            },
+
+            mouseLeaveHandler(event) {
+                this.eventMessage = 'The mouse left SimSelect Component.'
             }
         }
-
-        mouseLeaveHandler(event) {
-            this.eventMessage = 'The mouse left SimSelect Component.'
-        }
-
     }
+
 </script>
 
 <style>
+    .yearTermList{
+        width: 200px;
+        margin-left: 20px;
+        border: 1px solid black;
+        font-size: 10pt;
+    }
     .iconClass {
         margin-left: 10px;
         margin-top: 15px;

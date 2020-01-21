@@ -1,6 +1,20 @@
 <template>
-    <div style="max-width: 300px; min-width: 220px; margin-right: 20px">
-        <sim-year-term></sim-year-term>
+    <div class="container">
+        <div style="display: flex">
+            <div style="justify-content: space-around;width: 100%">
+                <sim-year-term
+                        v-model="simLabelInput"
+                        :simLabelInput="simLabelInput"
+                        :from="from"
+                        :nNext="nNext"
+                        :nPrev="nPrev"
+                        :byTerms="byTerms"
+                        @yearTerm-globalValueUpdated="yearTermChanged($event)"
+
+                >
+                </sim-year-term>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -15,10 +29,18 @@
 
         data() {
             return {
-
+                simLabelInput: '2020-1',
+                from: '2020',
+                nNext: 7,
+                nPrev: 3,
+                byTerms: false
             };
         },
         methods: {
+            yearTermChanged(event) {
+                this.simLabelInput = event.val
+                console.log('simLabelInput = ', this.simLabelInput)
+            },
             onBlurHandler() {
                 this.focused = false
             },

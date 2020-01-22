@@ -1,7 +1,7 @@
 <template>
     <div class='container'>
         <div style="display: inline-flex">
-            <div style="margin-top: 12px">
+            <div style="margin-top: 13px">
                 Semester:
             </div>
             <div class="iconClass" @click="_yearTerm_prevGlobalValue">
@@ -9,19 +9,21 @@
             </div>
             <div>
                 <sim-label
-                        v-model="simLabelInput"
-                        :value="simLabelInput"
-                        :config="{label: theLabel, hasClearButton: hasClearButton, disabled: disabled, line: hasLine}"
+                        :value="newValue"
+                        :config="{label: theLabel, hasClearButton: false, disabled: disabled, line: hasLine}"
                         :required="required"
-                        v-on:input="onInputHandler"
-                        v-on:blur="onBlurHandler"
-                        v-on:focus="onFocusHandler"
-                        v-on:mouseover="mouseOverHandler($event)"
-                        v-on:mouseleave="mouseLeaveHandler($event)"
+                        width="80px"
+                        :centered=true
+                        @change="yearTermChanged($event)"
+                        @blur="event => { $emit('blur', event) }"
+                        @focus="event => { $emit('focus', event) }"
+                        @mouseover="event => { $emit('mouseover', event) }"
+                        @mouseleave="event => { $emit('mouseleave', event) }"
+
                 >
                 </sim-label>
             </div>
-            <div class="iconClass" @click="_yearTerm_toggleSelectionDropdown(undefined, undefined, undefined, false)">
+            <div class="iconClass" @click="_yearTerm_toggleSelectionDropdown(from, nNext, nPrev, byTerms)">
                 <i class="fas fa-caret-down" v-if="!yearTermDropdownIsShowing"></i>
                 <i class="fas fa-caret-down" v-if="yearTermDropdownIsShowing"></i>
             </div>
@@ -73,13 +75,12 @@
             byTerms: {
                 type: Boolean,
                 required: false
-            },
+            }
         },
 
         data() {
             return {
                 theLabel: 'Year Term',
-                hasClearButton: true,
                 disabled: false,
                 hasLine: true,
                 required: false,
@@ -88,33 +89,42 @@
             }
         },
 
-        mounted() {
-            /// this._yearTerm_toggleSelectionDropdown('', this.nNext, this.nPrev, this.byTerms)
+        computed: {
+            newValue() {
+                return this._yearTerm_format(this.simLabelInput)
+            }
+        },
+
+        watch: {
+            /// Note: yearTerm_globalValue is declared in YearTermGlobal.js
+            yearTerm_globalValue (newVal, oldVal) {
+                this.$emit('change', newVal)
+            }
         },
 
         methods: {
-            onInputHandler(event) {
-                this.lastSelectedMsg = event + ': was entered at ' + new Date()
-            },
+            yearTermChanged(event) {
+                /// Check to see if this is a valid entry
+                let newValue = ''
+                let term = 0
+                const year = Number(event.substr(0,4))
 
-            onBlurHandler() {
-                this.eventMessage = 'The SimSelect component NOT focused.'
-            },
-
-            onFocusHandler() {
-                this.eventMessage = 'The SimSelect component is now focused.'
-            },
-
-            mouseOverHandler(event) {
-                if (event > ' ') {
-                    this.eventMessage = 'The current value of the SimSelect Component is: ' + event + '.'
-                } else {
-                    this.eventMessage = 'The current value of the SimSelect Component is blank.'
+                if (event.length === 5) {
+                    term = Number(event.substr(4,1))
                 }
-            },
+                else {
+                    term = Number(event.substr(5,1))
+                }
+                if ((year >= 1901) && (year <= 2030)) {
+                    if ((term === 1) || (term === 3) || (term === 4) || (term === 5)) {
+                       newValue = event
+                    }
+                }
+                if (newValue === '') {
+                    alert('Invalid Entry! -- Please try again')
+                }
+                this.$emit('change', newValue)
 
-            mouseLeaveHandler(event) {
-                this.eventMessage = 'The mouse left SimSelect Component.'
             }
         }
     }
@@ -129,7 +139,7 @@
         font-size: 10pt;
     }
     .iconClass {
-        margin-left: 10px;
+        margin-left: 12px;
         margin-top: 15px;
     }
     .redText {

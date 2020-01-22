@@ -522,9 +522,6 @@
       window.removeEventListener('scroll', this._displayPopup)
     },
     methods: {
-      scott () {
-        alert('here')
-      },
       initCalendar () {
         this.handleValueChange(this.value)
         this.displayPopup()

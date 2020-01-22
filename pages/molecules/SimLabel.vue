@@ -3,11 +3,12 @@
         <h1 class="text-primary" style="text-align: center">Sim Label Example</h1>
         <div style="display: flex; justify-content: space-around">
             <sim-label
-                    class="col-5"
                     v-model="simLabelInput"
                     :value="simLabelInput"
                     :config="{label: theLabel, hasClearButton: hasClearButton, disabled: disabled, line: hasLine}"
                     :required="required"
+                    :width="theWidth"
+                    :centered="centered"
                     v-on:input="onInputHandler"
                     v-on:blur="onBlurHandler"
                     v-on:focus="onFocusHandler"
@@ -107,6 +108,12 @@
                        :checked="required" @click='required = !required' style="padding-left: 10px; cursor: pointer">
                 <label for="required" style="margin-left: 3px">Required</label>
             </div>
+            <div class="col-2" style="margin-top: 20px">
+                <input type="checkbox"
+                       id="centered"
+                       :checked="centered" @click='centered = !centered' style="padding-left: 10px; cursor: pointer">
+                <label for="centered" style="margin-left: 3px">Centered</label>
+            </div>
             <div class="col-2">
                 <div class="col-2" style="margin-top: 20px">
                     <button class="btn-primary btn-ml" type="submit" @click="userMessage=''">Submit</button>
@@ -150,6 +157,7 @@
         labelClass: string = ''
         classList: string [] = ['', 'redText', 'greenText']
         required: boolean = false
+        centered: boolean = false
 
         onInputHandler(event) {
             this.lastSelectedMsg = event + ': was entered at ' + new Date()

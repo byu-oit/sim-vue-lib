@@ -6,12 +6,14 @@
         <div class="accessibility__icon" :style="accessibilityStyle" v-if="settings.line"></div>
         <div style="margin-bottom: -10px;"  class="slot-container" ref="input-container">
             <input
-                    v-model="newValue"
+                    :value="newValue"
+                    :style="theStyle"
                     type="text"
                     class="input"
                     :disabled="config.disabled"
                     :required="required"
                     @input="event => { $emit('input', event.target.value) }"
+                    @change="event => { $emit('change', event.target.value) }"
                     @blur="event => { $emit('blur', event.target.value) }"
                     @focus="event => { $emit('focus', event.target.value) }"
                     @mouseover="event => { $emit('mouseover', event.target.value) }"
@@ -44,7 +46,6 @@
         },
         hasError: boolean,
         height: number,
-        hasClearButton: boolean,
         clearOnInput: boolean,
         line: boolean,
         scale: boolean,
@@ -72,13 +73,18 @@
         @Prop({ default: false, type: Boolean })
         required!: boolean
 
+        @Prop({ default: false, type: Boolean })
+        centered!: boolean
+
+        @Prop({ default: '200px', type: String })
+        width!: string
+
         defaultSettings: Settings = {
             classes: {
                 error: 'has-error'
             },
             hasError: false,
             height: 50,
-            hasClearButton: true,
             clearOnInput: true,
             line: true,
             scale: true,
@@ -99,6 +105,14 @@
 
         get newValue() {
             return this.value
+        }
+
+        get theStyle() {
+            let style = 'width: ' + this.width
+            if (this.centered) {
+                style += '; text-align: center'
+            }
+            return style
         }
 
         get activeLabelClasses() {
@@ -223,7 +237,6 @@
         padding: 0 0;
         border: 0;
         display: block;
-        width: 100%;
         position: relative;
         background-color: transparent;
         transition: 0.2s cubic-bezier($easeInOutCubic);
@@ -382,6 +395,6 @@
         color: #5D7998;
         font-size: 10pt;
         font-weight: 600;
-        line-height: 1.5;
+        line-height: .5;
     }
 </style>

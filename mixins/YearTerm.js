@@ -1,9 +1,9 @@
 export default {
     methods: {
-        //general purpose methods
+        /// general purpose methods
         _yearTerm_add(years, terms, to)
         {
-            //Note that this routines ignores the fall and winter 2nd blocks
+            /// Note that this routines ignores the fall and winter 2nd blocks
             if (to === undefined)
             {
                 return undefined
@@ -12,7 +12,7 @@ export default {
             let year = parseInt(this._yearTerm_year(to), 10)
             let term = parseInt(this._yearTerm_term(to), 10)
 
-            //get any years that are in the number of terms to add
+            /// get any years that are in the number of terms to add
             const yearsInTerms = Math.floor(terms / 4)
             terms = terms - (yearsInTerms * 4)
 
@@ -173,7 +173,6 @@ export default {
         },
         _yearTerm_selectionList(from, nNext, nPrev, byTerms)
         {
-            console.log('YearTerm.js')
             const self = this
 
             function selectionElement(yearTerm, isCurrentSelection)

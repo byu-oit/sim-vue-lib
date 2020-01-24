@@ -14,7 +14,6 @@
                         v-on:focus="onFocusHandler($event)"
                         v-on:mouseover="mouseOverHandler($event)"
                         v-on:mouseleave="mouseLeaveHandler"
-
                 >
                 </sim-year-term>
             </div>
@@ -35,8 +34,8 @@
             </div>
             <div class="col-2">
                 <sim-select
-                        v-model="futureYearTerms"
-                        :value="futureYearTerms"
+                        v-model="futureTerms"
+                        :value="futureTerms"
                         label="Future Year Terms"
                         :items="termsList"
                         :textCentered=true
@@ -46,8 +45,8 @@
             </div>
             <div class="col-2">
                 <sim-select
-                        v-model="pastYearTerms"
-                        :value="pastYearTerms"
+                        v-model="previousTerms"
+                        :value="previousTerms"
                         label="Past Year Terms"
                         :items="termsList"
                         :textCentered=true
@@ -91,8 +90,8 @@
         data() {
             return {
                 simLabelInput: '',
-                nNext: 7,
-                nPrev: 3,
+                futureTerms: '3',
+                previousTerms: '4',
                 byTerms: false,
                 lastInputMessage: '',
                 eventMessage: '',
@@ -100,14 +99,21 @@
 
                 startingYearTerm: '2019-1',
                 yearTermList: ['2017-1', '2018-1', '2019-1','2020-1','2021-1'],
-                futureYearTerms: '3',
-                pastYearTerms: '5',
                 termsList: ['1','2','3','4','5','6','7','8']
             };
         },
 
         mounted() {
-            this.simLabelInput = this.startingYearTerm
+             this.startingYearTerm = this.simLabelInput.substr(0,4) + '-' + this.simLabelInput.substr(4,1)
+        },
+
+        computed: {
+            nNext() {
+                return Number(this.futureTerms)
+            },
+            nPrev() {
+                return Number(this.previousTerms)
+            }
         },
 
         methods: {

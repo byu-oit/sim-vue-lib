@@ -2,7 +2,7 @@
     <div class='container'>
         <div style="display: inline-flex">
             <div style="margin-top: 13px">
-                Semester:
+                {{ leftLabel }}
             </div>
             <div class="iconClass" @click="_yearTerm_prevGlobalValue">
                 <i class="fas fa-arrow-left"></i>
@@ -10,7 +10,7 @@
             <div>
                 <sim-label
                         :value="newValue"
-                        :config="{label: theLabel, hasClearButton: false, disabled: disabled, line: hasLine}"
+                        :config="{label: topLabel, hasClearButton: false, disabled: disabled, line: hasLine}"
                         :required="required"
                         width="80px"
                         :centered=true
@@ -75,18 +75,29 @@
             byTerms: {
                 type: Boolean,
                 required: false
+            },
+            topLabel: {
+                type: String,
+                default: 'Year Term'
+            },
+            leftLabel: {
+                type: String,
+                default: 'Semester:'
             }
         },
 
         data() {
             return {
-                theLabel: 'Year Term',
                 disabled: false,
                 hasLine: true,
                 required: false,
                 yearTermDropdownIsShowing: false,
 
             }
+        },
+
+        mounted() {
+            this.$emit("change", this.yearTerm_globalValue)
         },
 
         computed: {

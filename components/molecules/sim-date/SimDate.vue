@@ -1,7 +1,5 @@
 <template>
   <body>
-    <link rel="stylesheet" href="https://cdn.byu.edu/theme-fonts/latest/ringside/fonts.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <div
     id="app"
       class="mx-datepicker"
@@ -32,7 +30,7 @@
             :placeholder="innerPlaceholder"
             @keypress="event => { $emit('keypress', event.target.value) }"
             @change="event => { $emit('input', event.target.value) }"
-            @focus="event => { $emit('focus', event.target.value) }"
+            @focus="handleFocus"
             @blur="event => { $emit('blur', event.target.value) }"
             @mouseover="event => { $emit('mouseover', event.target.value) }"
             @mouseleave="event => { $emit('mouseleave', event.target.value) }"
@@ -41,11 +39,11 @@
 
         <span @click.stop="clearDate" style="float: right">
           <slot name="calendar-icon">
-            <i :class="calendarIcon" style="margin-top: 25px"></i>
+            <i :class="calendarIcon"  :style="iconStyle"></i>
           </slot>
         </span>
       </div>
-      <div class="mx-datepicker-popup"
+      <div class="mx-datepicker-popup" style="margin-left: -50px"
            :style="innerPopupStyle"
            v-show="popupVisible"
            @click.stop.prevent
@@ -57,7 +55,7 @@
               type="button"
               class="mx-shortcuts"
               v-for="(range, index) in innerShortcuts"
-              :key="SimDate"
+              :key="index"
               @click="selectRange(range)">{{range.text}}</button>
           </div>
         </slot>
@@ -233,10 +231,6 @@
       inputClass: {
         type: String,
         default: ''
-      },
-      underlineOnFocus: {
-        type: Boolean,
-        default: true
       }
 
     },
@@ -438,19 +432,16 @@
         else if (this.size === 'lg') {
           inputClass += ' form-control-lg'
         }
-
-        if (this.underlineOnFocus) {
           inputClass += ' underline'
-        }
         return inputClass
       },
 
       divStyle() {
         if (this.size === 'sm') {
-          return "width: 130px;; margin-top: 12px"
+          return "width: 130px; margin-top: 12px"
         }
         else if (this.size === 'lg') {
-          return "margin-top: 8px"
+          return "width: 175px; margin-top: 8px; margin-right: 12px"
         }
         else {
           return "width: 145px; margin-top: 10px"
@@ -460,10 +451,10 @@
       theStyle() {
         let style = ''
         if (this.size === 'sm') {
-          style = style + 'width: 115px; margin-top: -4px;'
+          style = style + 'width: 100px; margin-top: -4px;'
         }
         else if (this.size === 'lg') {
-          style = style + 'width: 150px; height: calc(1.5em + 0.3rem + 3px); margin-top: 2px; padding-left: 10px; padding-right: 10px;'
+          style = style + 'width: 140px; height: calc(1.5em + 0.3rem + 3px); margin-top: 2px; padding-left: 10px; padding-right: 10px;'
         }
         else {
           style = style + 'width: 115px;'
@@ -491,13 +482,13 @@
 
       iconStyle() {
         if (this.size === 'sm') {
-          return 'margin-left: -55px;'
+          return 'margin-left: -5px; margin-top: 25px;'
         }
         else if (this.size === 'lg') {
-          return 'margin-left: 6px;'
+          return 'margin-left: 0px; margin-top: 30px'
         }
         else {
-          return 'margin-left: -35px'
+          return 'margin-left: 2px; margin-top: 24px'
         }
       }
     },
@@ -693,7 +684,8 @@
         if (!this.popupVisible) {
           this.showPopup()
         }
-        this.$emit('focus', event)
+        this.$emit('focus', event.target.value)
+        // this.$emit('focus', event)
       },
       handleKeydown (event) {
         const keyCode = event.keyCode
@@ -819,14 +811,13 @@
   }
   .smallIcon {
     margin-left: 0px;
-    margin-top: 28px;
+    margin-top: 48px;
   }
   .mediumIcon {
     margin-left: 0px;
     margin-top: 28px;
   }
   .largeIcon {
-    margin-left: -20px;
-    margin-top: 28px;
+
   }
 </style>

@@ -3,7 +3,7 @@
         <h1 class="text-primary" style="text-align: center">Sim Date Example</h1>
         <div id="app">
             <div class="container">
-            <div style="height: 150px; border: solid black 1px; width: 100%">
+            <div style="height: 350px; border: solid black 1px; width: 100%">
                 <div class="row">
                     <div class="col-5"></div>
                     <div class="col-3">
@@ -21,7 +21,6 @@
                                 :inputClass="inputClass"
                                 :labelClass="labelClass"
                                 format="DD MMM YYYY"
-                                :underlineOnFocus="underlineOnFocus"
                                 v-on:input="onInputHandler"
                                 v-on:blur="onBlurHandler"
                                 v-on:focus="onFocusHandler"
@@ -127,13 +126,6 @@
                     ></sim-select>
                 </div>
 
-                <div class="col-3" style="margin-top: 20px">
-                    <input type="checkbox"
-                           id="underLineOnFocus"
-                           :checked="underlineOnFocus" @click='underlineOnFocus = !underlineOnFocus' style="padding-left: 10px; cursor: pointer">
-                    <label for="underLineOnFocus" style="margin-left: 3px">Underline on Focus</label>
-                </div>
-
                 <div class="col-2" style="margin-top: 20px">
 
                 </div>
@@ -196,7 +188,6 @@
                 classList: ['', 'redText', 'greenText'],
                 theFormat: '',
                 formatList: ['','DD MMM YYYY','YYYY MM DD','YYYY-MM-DD','DD/MM/YYYY','MMM DD YYYY'],
-                underlineOnFocus: true,
                 lastSelectedMsg: '',
                 eventMessage: '',
                 keyPressMessage: '',

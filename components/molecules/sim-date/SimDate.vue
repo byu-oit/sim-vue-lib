@@ -432,7 +432,9 @@
         else if (this.size === 'lg') {
           inputClass += ' form-control-lg'
         }
-          inputClass += ' underline'
+        else {
+          inputClass += ' form-control-md'
+        }
         return inputClass
       },
 
@@ -806,8 +808,17 @@
   input:disabled {
     background-color:#eff1f4;
   }
-  .underline:focus {
-    text-decoration: underline;
+  .form-control-lg:focus {
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+  .form-control-sm:focus {
+    font-weight: 600;
+    font-size: 0.65rem;
+  }
+  .form-control-md:focus {
+    font-weight: 600;
+    font-size: 0.9rem;
   }
   .smallIcon {
     margin-left: 0px;

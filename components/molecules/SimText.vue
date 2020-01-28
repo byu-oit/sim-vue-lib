@@ -1,9 +1,7 @@
 <template>
     <div class='container'>
         <div class = row h-25>
-
             <label :style="labelStyle">{{ label }}</label>
-
         </div>
         <div class = row h-75>
 
@@ -156,7 +154,7 @@
                     return 'form-control form-control-lg'
                 }
                 else {
-                    return 'form-control'
+                    return 'form-control form-control-md'
                 }
             },
 
@@ -320,9 +318,17 @@
         text-align: left;
         border-radius: 4px;
     }
-    textarea:focus {
-        font-size: 14px;
-        text-decoration: underline;
+    .form-control-lg:focus {
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+    .form-control-sm:focus {
+        font-weight: 600;
+        font-size: 0.65rem;
+    }
+    .form-control-md:focus {
+        font-weight: 600;
+        font-size: 0.9rem;
     }
     textarea:disabled {
         background-color:#eff1f4;

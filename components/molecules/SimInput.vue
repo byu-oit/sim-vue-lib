@@ -194,6 +194,10 @@
 </script>
 
 <style scoped lang="styl">
+    :root {
+        --main-color: coral;
+        --font-size-md: .9rem;
+    }
     label {
         text-align: left;
         padding-left: 8px;
@@ -205,9 +209,19 @@
         border-radius: 4px;
         text-decoration: dashed;
     }
-    input:focus {
-        text-decoration: underline;
+    .form-control-lg:focus {
+        font-weight: 500;
+        font-size: 1.1rem;
     }
+    .form-control-sm:focus {
+        font-weight: 500;
+        font-size: 0.65rem;
+    }
+    .form-control:focus {
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
     input:disabled {
         background-color:#eff1f4;
     }

@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class = row h-25>
-            <label :class="labelClass" :style="labelStyle">{{ label }}</label>
+            <label :class="labelClass" :style="labelStyle">{{ theLabel }}</label>
         </div>
         <div class = row h-75>
             <input
@@ -381,12 +381,15 @@
             let label = ''
             if ((Number(this.amount) < 0) && (!this.minus)) {
                 label = 'Negative values not allowed'
+                this.amount = this.amount.replace('-', '')
             }
             else if (Number(this.amount) < this.min) {
                 label = 'Exceeded minimum value'
+                this.amount = this.min.toString()
             }
             else if (Number(this.amount) > this.max) {
                 label = 'Exceeded maximum value'
+                this.amount = this.max.toString()
             }
 
             if (label !== '') {
@@ -399,6 +402,7 @@
                 }, 3000)
             }
             this.process(this.value)
+            this.$emit('change',this.amount)
         }
 
         /**

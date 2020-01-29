@@ -9,7 +9,10 @@
                     :required="required"
                     :width="theWidth"
                     :centered="centered"
+                    :maxLength="maxLength"
+                    :inputClass="inputClass"
                     v-on:input="onInputHandler"
+                    v-on:clear="onClearHandler"
                     v-on:blur="onBlurHandler"
                     v-on:focus="onFocusHandler"
                     v-on:mouseover="mouseOverHandler($event)"
@@ -72,16 +75,6 @@
                         v-model="inputClass"
                         :value="inputClass"
                         label="Input Class"
-                        :items="classList"
-                        :textCentered=true
-                        width="100px"
-                ></sim-select>
-            </div>
-            <div class="col-2">
-                <sim-select
-                        v-model="labelClass"
-                        :value="labelClass"
-                        label="Label Class"
                         :items="classList"
                         :textCentered=true
                         width="100px"
@@ -154,7 +147,6 @@
         lastSelectedMsg: string = ''
         eventMessage: string = ''
         inputClass: string = ''
-        labelClass: string = ''
         classList: string [] = ['', 'redText', 'greenText']
         required: boolean = false
         centered: boolean = false
@@ -182,6 +174,10 @@
 
         mouseLeaveHandler(event) {
             this.eventMessage = 'The mouse left SimSelect Component.'
+        }
+
+        onClearHandler(event) {
+            this.simLabelInput = ''
         }
 
     }

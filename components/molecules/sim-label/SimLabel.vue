@@ -4,25 +4,30 @@
             <svg transform="scale(1.5)" width="10" height="11" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z" fill="#fff"/></svg>
         </div>
         <div class="accessibility__icon" :style="accessibilityStyle" v-if="settings.line"></div>
-        <div style="margin-bottom: -10px;"  class="slot-container" ref="input-container">
-            <input
-                    :value="newValue"
-                    :style="theStyle"
-                    type="text"
-                    class="input"
-                    :disabled="config.disabled"
-                    :required="required"
-                    @input="event => { $emit('input', event.target.value) }"
-                    @change="event => { $emit('change', event.target.value) }"
-                    @blur="event => { $emit('blur', event.target.value) }"
-                    @focus="event => { $emit('focus', event.target.value) }"
-                    @mouseover="event => { $emit('mouseover', event.target.value) }"
-                    @mouseleave="event => { $emit('mouseleave', event.target.value) }"
-                    maxlength="40" size="20"
-                    >
+        <div class="flex-container">
+            <div style="margin-bottom: -10px"  class="slot-container" ref="input-container">
+                <input
+                        :value="newValue"
+                        :style="theStyle"
+                        type="text"
+                        :class="theClass"
+                        :disabled="config.disabled"
+                        :required="required"
+                        @input="event => { $emit('input', event.target.value) }"
+                        @change="event => { $emit('change', event.target.value) }"
+                        @blur="event => { $emit('blur', event.target.value) }"
+                        @focus="event => { $emit('focus', event.target.value) }"
+                        @mouseover="event => { $emit('mouseover', event.target.value) }"
+                        @mouseleave="event => { $emit('mouseleave', event.target.value) }"
+                        :maxlength="maxLength"
+                        >
+            </div>
+            <div v-if="showClearIcon">
+                <i style="margin-top: 10px" class="fas fa-times-circle" @click="clear"></i>
+            </div>
         </div>
-        <label v-if="newValue===''" class="label__placeholder SIM-no-wrap" :for="labelName">{{ config.label }}</label>
-        <label v-else class="entryLabel" :class="activeLabelClasses" :style="activeLabelStyle" :for="labelName">{{ config.label }}</label>
+            <label v-if="newValue===''" class="label__placeholder SIM-no-wrap" :for="labelName">{{ config.label }}</label>
+            <label v-else class="entryLabel" :class="activeLabelClasses" :style="activeLabelStyle" :for="labelName">{{ config.label }}</label>
     </div>
 </template>
 
@@ -79,6 +84,12 @@
         @Prop({ default: '200px', type: String })
         width!: string
 
+        @Prop({ default: '', type: String })
+        maxLength!: string
+
+        @Prop({ default: '', type: String })
+        inputClass!: string
+
         defaultSettings: Settings = {
             classes: {
                 error: 'has-error'
@@ -108,11 +119,15 @@
         }
 
         get theStyle() {
-            let style = 'width: ' + this.width
+            let style = 'width: ' + this.width + '; margin-top: 20px'
             if (this.centered) {
                 style += '; text-align: center'
             }
             return style
+        }
+
+        get theClass() {
+            return this.inputClass + ' input'
         }
 
         get activeLabelClasses() {
@@ -177,6 +192,10 @@
 
         get settings() {
             return Object.assign({}, this.defaultSettings, this.config);
+        }
+
+        get showClearIcon() {
+            return (this.settings.hasClearButton) && (this.newValue !== '')
         }
 
         clear() {
@@ -354,6 +373,7 @@
     }
     input:focus{
         outline: none;
+        font-weight: 550;
     }
     label {
         position: absolute;
@@ -396,5 +416,19 @@
         font-size: 10pt;
         font-weight: 600;
         line-height: .5;
+    }
+    .flex-container {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .redText {
+        color: red
+    }
+    .greenText {
+        color: green
     }
 </style>

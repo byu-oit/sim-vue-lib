@@ -25,7 +25,8 @@
                                     :minus="allowMinus"
                                     :inputClass="inputClass"
                                     :labelClass="labelClass"
-                                    v-on:input="onInputHandler"
+                                    @input="onInputHandler"
+                                    @change="onChangeHandler"
                             ></sim-number>
                         </div>
                     </div>
@@ -216,6 +217,10 @@
 
         onFocusHandler() {
             this.focused = true
+        }
+
+        onChangeHandler(event) {
+            this.numberValue = Number(event)
         }
 
 

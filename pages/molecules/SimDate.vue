@@ -20,7 +20,7 @@
                                 :alwaysShowLabel="alwaysShowLabel"
                                 :inputClass="inputClass"
                                 :labelClass="labelClass"
-                                format="DD MMM YYYY"
+                                :format="theFormat"
                                 v-on:input="onInputHandler"
                                 v-on:blur="onBlurHandler"
                                 v-on:focus="onFocusHandler"

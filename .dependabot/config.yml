@@ -5,6 +5,7 @@ update_configs:
     target_branch: dev
     update_schedule: weekly
     default_reviewers:
+      - ScottNielson53
       - stuft2
     automerged_updates:
       - match:

@@ -38,7 +38,7 @@
     "nuxt": "^2.13.0",
     "nuxt-property-decorator": "^2.5.0",
     "prettier": "^1.16.4",
-    "ts-node": "^8.2.0",
+    "ts-node": "^8.10.2",
     "typescript": "^3.8.3"
   },
   "peerDependencies": {

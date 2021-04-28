@@ -1,0 +1,30 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+    time: "08:00"
+    timezone: America/Denver
+  open-pull-requests-limit: 10
+  target-branch: dev
+  reviewers:
+  - ScottNielson53
+  - stuft2
+  ignore:
+  - dependency-name: y18n
+    versions:
+    - 4.0.1
+  - dependency-name: cypress
+    versions:
+    - 6.3.0
+    - 6.4.0
+    - 6.5.0
+    - 6.6.0
+    - 6.8.0
+  - dependency-name: "@nuxtjs/eslint-config-typescript"
+    versions:
+    - 5.0.0
+  - dependency-name: elliptic
+    versions:
+    - 6.5.3

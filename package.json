@@ -18,7 +18,7 @@
     "@nuxt/typescript-runtime": "^0.4.2",
     "@nuxtjs/eslint-config": "^2.0.0",
     "@nuxtjs/eslint-config-typescript": "^1.0.0",
-    "@nuxtjs/vuetify": "^1.9.1",
+    "@nuxtjs/vuetify": "^1.12.1",
     "@typescript-eslint/eslint-plugin": "^2.26.0",
     "@vue/cli-plugin-typescript": "^3.11.0",
     "@vue/eslint-config-standard": "^5.0.1",
